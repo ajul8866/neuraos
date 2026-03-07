@@ -1,0 +1,124 @@
+# ============================================================
+# NeuraOS — Default Configuration
+# All values here can be overridden by environment variables.
+# See env.example for the full list of supported env vars.
+# ============================================================
+
+[server]
+port            = 8080
+bind_address    = "0.0.0.0"
+workers         = 0          # 0 = use all CPU cores
+request_timeout_secs = 120
+max_request_body_mb  = 32
+enable_cors     = true
+cors_origins    = ["*"]
+enable_tls      = false
+tls_cert_path   = ""
+tls_key_path    = ""
+
+[api]
+# Master API key — set via NEURAOS_API_KEY env var in production
+api_key            = ""
+require_auth       = false
+rate_limit_rps     = 100
+max_concurrent_req = 256
+openai_compat_path = "/v1"
+
+[llm]
+default_model       = "gpt-4o-mini"
+fallback_model      = "gpt-4o-mini"
+request_timeout_secs = 120
+max_retries         = 3
+retry_delay_ms      = 500
+enable_cache        = true
+cache_ttl_secs      = 3600
+enable_optimizer    = true
+# Bayesian optimizer weights (must sum to 1.0)
+quality_weight      = 0.5
+cost_weight         = 0.3
+speed_weight        = 0.2
+
+[memory]
+working_capacity          = 128
+episodic_enabled          = true
+semantic_enabled          = true
+graph_enabled             = true
+decay_half_life_hours     = 168.0    # 1 week
+consolidation_interval_secs = 3600
+embedding_model           = "text-embedding-3-small"
+embedding_dimensions      = 1536
+sqlite_path               = "data/memory.db"
+dedup_threshold           = 0.95
+
+[tools]
+enable_bash_exec   = true
+enable_python_exec = true
+enable_web_search  = true
+enable_http        = true
+enable_filesystem  = true
+enable_git         = true
+enable_sql         = true
+enable_email       = false
+enable_wasm        = false
+enable_mcp         = false
+# Sandbox settings
+sandbox_enabled        = true
+sandbox_timeout_secs   = 30
+sandbox_max_memory_mb  = 512
+# Filesystem sandbox root (relative to cwd)
+sandbox_fs_root        = "sandbox"
+
+[kernel]
+event_bus_capacity      = 10000
+scheduler_tick_ms       = 100
+max_concurrent_agents   = 32
+circuit_breaker_threshold = 5
+circuit_breaker_timeout_secs = 60
+budget_check_interval_secs   = 10
+
+[shield]
+enable_injection_detection = true
+enable_jailbreak_detection = true
+enable_data_guard          = true
+enable_audit_log           = true
+audit_log_path             = "data/audit.log"
+# PII redaction in logs
+redact_pii                 = true
+# Block list for prompt injection patterns
+max_prompt_length          = 32000
+
+[agents]
+# Pre-load built-in agent catalog on startup
+preload_catalog   = true
+# Default budget applied to all agents unless overridden
+default_max_cost_per_run   = 5.00
+default_max_tool_calls     = 100
+default_max_tokens         = 200000
+default_max_duration_secs  = 600
+default_max_depth          = 12
+# Require human approval for these tool categories by default
+require_approval_external  = false
+require_approval_code      = false
+require_approval_financial  = true
+
+[telemetry]
+enabled              = true
+service_name         = "neuraos"
+log_level            = "info"
+log_format           = "human"    # "human" | "json"
+otlp_endpoint        = ""
+metrics_enabled      = true
+metrics_port         = 9090
+tracing_sample_rate  = 0.1
+
+[storage]
+data_dir         = "data"
+log_dir          = "data/logs"
+plugins_dir      = "plugins"
+# PostgreSQL — set DATABASE_URL env var for production
+database_url     = ""
+# Redis — set REDIS_URL env var for production
+redis_url        = ""
+# Qdrant — set QDRANT_URL env var for production
+qdrant_url       = "http://localhost:6333"
+qdrant_collection = "neuraos_memory"
