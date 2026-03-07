@@ -1,0 +1,17 @@
+[package]
+name = "neuraos-dsl"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Domain-specific language for defining NeuraOS agent workflows"
+
+[dependencies]
+neuraos-types  = { path = "../neuraos-types" }
+serde          = { workspace = true }
+serde_json     = { workspace = true }
+serde_yaml     = { workspace = true }
+anyhow         = { workspace = true }
+thiserror      = { workspace = true }
+tracing        = "0.1"
