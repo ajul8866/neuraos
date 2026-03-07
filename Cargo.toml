@@ -1,0 +1,262 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/neuraos-types",
+    "crates/neuraos-config",
+    "crates/neuraos-kernel",
+    "crates/neuraos-runtime",
+    "crates/neuraos-memory",
+    "crates/neuraos-channels",
+    "crates/neuraos-llm",
+    "crates/neuraos-tools",
+    "crates/neuraos-wings",
+    "crates/neuraos-agents",
+    "crates/neuraos-skills",
+    "crates/neuraos-shield",
+    "crates/neuraos-api",
+    "crates/neuraos-wire",
+    "crates/neuraos-extensions",
+    "crates/neuraos-cli",
+    "crates/neuraos-bin",
+    "crates/neuraos-desktop",
+    "crates/neuraos-migrate",
+    "crates/neuraos-telemetry",
+    "crates/neuraos-plugins",
+    "crates/neuraos-dsl",
+    "xtask",
+]
+
+[workspace.package]
+version     = "0.1.0"
+edition     = "2021"
+rust-version = "1.80"
+authors     = ["NeuraOS Contributors"]
+license     = "MIT OR Apache-2.0"
+repository  = "https://github.com/neuraos/neuraos"
+homepage    = "https://neuraos.dev"
+description = "The Agent Operating System — autonomous AI agents that work for you"
+
+[workspace.dependencies]
+# ── Async runtime ──────────────────────────────────────────────────────────────
+tokio          = { version = "1",    features = ["full"] }
+tokio-stream   = { version = "0.1",  features = ["sync"] }
+tokio-util     = { version = "0.7",  features = ["full"] }
+futures        = "0.3"
+async-trait    = "0.1"
+pin-project    = "1"
+
+# ── HTTP server / client ───────────────────────────────────────────────────────
+axum           = { version = "0.8",  features = ["ws", "multipart", "macros"] }
+axum-extra     = { version = "0.10", features = ["typed-header"] }
+tower          = { version = "0.5",  features = ["full"] }
+tower-http     = { version = "0.6",  features = ["full"] }
+hyper          = { version = "1",    features = ["full"] }
+reqwest        = { version = "0.12", default-features = false, features = ["json", "stream", "rustls-tls", "multipart", "gzip"] }
+
+# ── gRPC ──────────────────────────────────────────────────────────────────────
+tonic          = { version = "0.12", features = ["tls", "tls-roots", "transport", "gzip"] }
+tonic-reflection = "0.12"
+prost          = "0.13"
+
+# ── WebSocket ─────────────────────────────────────────────────────────────────
+tokio-tungstenite = { version = "0.24", features = ["rustls-tls-webpki-roots"] }
+
+# ── Serialization ─────────────────────────────────────────────────────────────
+serde          = { version = "1",    features = ["derive", "rc"] }
+serde_json     = { version = "1",    features = ["raw_value", "preserve_order"] }
+serde_yaml     = "0.9"
+toml           = { version = "0.8",  features = ["parse", "display"] }
+rmp-serde      = "1"
+bincode        = "2"
+ciborium       = "0.2"
+
+# ── Error handling ────────────────────────────────────────────────────────────
+thiserror      = "2"
+anyhow         = "1"
+color-eyre     = "0.6"
+
+# ── Concurrency ───────────────────────────────────────────────────────────────
+dashmap        = { version = "6",    features = ["serde", "rayon"] }
+crossbeam      = "0.8"
+parking_lot    = "0.12"
+arc-swap       = "1"
+rayon          = "1"
+flume          = "0.11"
+
+# ── Logging / Tracing ─────────────────────────────────────────────────────────
+tracing            = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json", "fmt"] }
+tracing-opentelemetry = "0.27"
+opentelemetry      = { version = "0.27", features = ["trace", "metrics", "logs"] }
+opentelemetry-otlp = { version = "0.27", features = ["grpc-tonic", "http-proto"] }
+opentelemetry_sdk  = { version = "0.27", features = ["rt-tokio", "trace", "metrics"] }
+metrics            = "0.24"
+metrics-exporter-prometheus = "0.16"
+
+# ── Database ──────────────────────────────────────────────────────────────────
+rusqlite       = { version = "0.31", features = ["bundled", "backup", "functions", "load_extension"] }
+sea-orm        = { version = "1",    features = ["sqlx-sqlite", "runtime-tokio-rustls", "macros"] }
+
+# ── Time ──────────────────────────────────────────────────────────────────────
+chrono         = { version = "0.4",  features = ["serde", "clock"] }
+time           = { version = "0.3",  features = ["formatting", "parsing", "macros", "serde"] }
+
+# ── IDs ───────────────────────────────────────────────────────────────────────
+uuid           = { version = "1",    features = ["v4", "v7", "serde", "fast-rng"] }
+ulid           = "1"
+nanoid         = "0.4"
+
+# ── CLI ───────────────────────────────────────────────────────────────────────
+clap           = { version = "4",    features = ["derive", "env", "cargo", "string", "color"] }
+clap_complete  = "4"
+ratatui        = { version = "0.29", features = ["all-widgets", "crossterm"] }
+crossterm      = { version = "0.28", features = ["event-stream"] }
+dialoguer      = "0.11"
+indicatif      = "0.17"
+console        = "0.15"
+colored        = "2"
+tabled         = "0.15"
+
+# ── Cryptography ──────────────────────────────────────────────────────────────
+sha2           = "0.10"
+sha3           = "0.10"
+hmac           = "0.12"
+ed25519-dalek  = { version = "2",    features = ["serde", "rand_core"] }
+x25519-dalek   = { version = "2",    features = ["serde"] }
+aes-gcm        = "0.10"
+chacha20poly1305 = "0.10"
+argon2         = "0.5"
+bcrypt         = "0.15"
+rand           = "0.8"
+rand_core      = "0.6"
+zeroize        = { version = "1",    features = ["zeroize_derive", "serde"] }
+subtle         = "2"
+blake3         = { version = "1",    features = ["rayon", "serde"] }
+base64         = "0.22"
+hex            = { version = "0.4",  features = ["serde"] }
+ring           = "0.17"
+rustls         = { version = "0.23", features = ["ring"] }
+rustls-pemfile = "2"
+totp-rs        = { version = "5",    features = ["qr", "serde_support"] }
+
+# ── WASM Sandbox ──────────────────────────────────────────────────────────────
+wasmtime       = { version = "26",   features = ["async", "cranelift", "cache", "pooling-allocator", "gc"] }
+wasmtime-wasi  = "26"
+wit-bindgen    = "0.30"
+
+# ── Lua scripting ─────────────────────────────────────────────────────────────
+mlua           = { version = "0.10", features = ["lua54", "async", "serialize", "send", "vendored"] }
+
+# ── P2P / Networking ──────────────────────────────────────────────────────────
+libp2p         = { version = "0.54", features = ["tokio", "tcp", "tls", "noise", "yamux", "gossipsub", "kademlia", "mdns", "identify", "ping", "relay", "dcutr"] }
+
+# ── Text / NLP ────────────────────────────────────────────────────────────────
+regex          = "1"
+fancy-regex    = "0.14"
+unicode-normalization = "0.1"
+unicode-segmentation = "1"
+whichlang      = "0.1"
+tiktoken-rs    = "0.6"
+
+# ── Vector / Math ─────────────────────────────────────────────────────────────
+ndarray        = { version = "0.16", features = ["serde", "rayon"] }
+half           = { version = "2",    features = ["serde", "num-traits"] }
+
+# ── Template ──────────────────────────────────────────────────────────────────
+tera           = "1"
+handlebars     = { version = "6",    features = ["script_helper"] }
+minijinja      = { version = "2",    features = ["loader", "json", "builtins"] }
+
+# ── Config / Env ──────────────────────────────────────────────────────────────
+dotenvy        = "0.15"
+config         = { version = "0.14", features = ["toml", "yaml", "json", "ini"] }
+notify         = { version = "7",    features = ["serde"] }
+
+# ── Compression ───────────────────────────────────────────────────────────────
+flate2         = "1"
+zstd           = "0.13"
+brotli         = "6"
+lz4_flex       = "0.11"
+
+# ── Misc utils ────────────────────────────────────────────────────────────────
+itertools      = "0.14"
+once_cell      = "1"
+lazy_static    = "1"
+bytes          = "1"
+smallvec       = { version = "1",    features = ["serde", "union"] }
+indexmap       = { version = "2",    features = ["serde"] }
+ahash          = { version = "0.8",  features = ["serde"] }
+strum          = { version = "0.27", features = ["derive"] }
+bitflags       = { version = "2",    features = ["serde"] }
+derive_more    = { version = "1",    features = ["full"] }
+bon            = "3"
+typed-builder  = "0.20"
+url            = { version = "2",    features = ["serde"] }
+mime           = "0.3"
+secrecy        = { version = "0.8",  features = ["serde"] }
+humantime      = "2"
+humantime-serde = "1"
+tempfile       = "3"
+walkdir        = "2"
+glob           = "0.3"
+which          = "7"
+sys-info       = "0.9"
+num_cpus       = "1"
+bytesize       = { version = "1",    features = ["serde"] }
+
+# ── Cron / scheduling ─────────────────────────────────────────────────────────
+cron           = "0.13"
+tokio-cron-scheduler = { version = "0.13", features = ["signal"] }
+
+# ── HTTP extras ───────────────────────────────────────────────────────────────
+headers        = "0.4"
+http           = "1"
+http-body-util = "0.1"
+tower-sessions = { version = "0.14", features = ["memory-store"] }
+axum-login     = "0.17"
+
+# ── Internal crates ───────────────────────────────────────────────────────────
+neuraos-types      = { path = "crates/neuraos-types" }
+neuraos-config     = { path = "crates/neuraos-config" }
+neuraos-kernel     = { path = "crates/neuraos-kernel" }
+neuraos-runtime    = { path = "crates/neuraos-runtime" }
+neuraos-memory     = { path = "crates/neuraos-memory" }
+neuraos-channels   = { path = "crates/neuraos-channels" }
+neuraos-llm        = { path = "crates/neuraos-llm" }
+neuraos-tools      = { path = "crates/neuraos-tools" }
+neuraos-wings      = { path = "crates/neuraos-wings" }
+neuraos-agents     = { path = "crates/neuraos-agents" }
+neuraos-skills     = { path = "crates/neuraos-skills" }
+neuraos-shield     = { path = "crates/neuraos-shield" }
+neuraos-api        = { path = "crates/neuraos-api" }
+neuraos-wire       = { path = "crates/neuraos-wire" }
+neuraos-extensions = { path = "crates/neuraos-extensions" }
+neuraos-cli        = { path = "crates/neuraos-cli" }
+neuraos-migrate    = { path = "crates/neuraos-migrate" }
+neuraos-telemetry  = { path = "crates/neuraos-telemetry" }
+neuraos-plugins    = { path = "crates/neuraos-plugins" }
+neuraos-dsl        = { path = "crates/neuraos-dsl" }
+
+[profile.dev]
+opt-level = 0
+debug = true
+split-debuginfo = "unpacked"
+
+[profile.dev.package."*"]
+opt-level = 3  # optimize deps even in dev
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+opt-level = 3
+panic = "abort"
+
+[profile.release-debug]
+inherits = "release"
+debug = true
+strip = false
+
+[profile.bench]
+inherits = "release"
+debug = true
