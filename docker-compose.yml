@@ -1,0 +1,149 @@
+version: "3.9"
+
+# ============================================================
+# NeuraOS — Docker Compose stack
+#
+# Services:
+#   neuraos   — Agent OS server (REST + WebSocket API)
+#   qdrant    — Vector database for semantic memory
+#   redis     — Session / pub-sub cache
+#   postgres  — Optional relational store for audit logs
+#
+# Usage:
+#   docker compose up -d                 # start all
+#   docker compose up neuraos            # start only the server
+#   docker compose logs -f neuraos       # follow server logs
+#   docker compose down -v               # stop + remove volumes
+# ============================================================
+
+services:
+
+  # ── NeuraOS Server ───────────────────────────────────────────
+  neuraos:
+    image: neuraos/neuraos:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: neuraos
+    restart: unless-stopped
+    ports:
+      - "${NEURAOS_PORT:-8080}:8080"
+    environment:
+      NEURAOS_PORT:          "${NEURAOS_PORT:-8080}"
+      NEURAOS_LOG:           "${NEURAOS_LOG:-info}"
+      OPENAI_API_KEY:        "${OPENAI_API_KEY}"
+      ANTHROPIC_API_KEY:     "${ANTHROPIC_API_KEY}"
+      GOOGLE_API_KEY:        "${GOOGLE_API_KEY}"
+      GROQ_API_KEY:          "${GROQ_API_KEY}"
+      DEEPSEEK_API_KEY:      "${DEEPSEEK_API_KEY}"
+      MISTRAL_API_KEY:       "${MISTRAL_API_KEY}"
+      NEURAOS_API_KEY:       "${NEURAOS_API_KEY}"
+      QDRANT_URL:            "http://qdrant:6333"
+      REDIS_URL:             "redis://redis:6379"
+      DATABASE_URL:          "postgresql://neuraos:${POSTGRES_PASSWORD:-neuraos}@postgres:5432/neuraos"
+      NEURAOS_DATA_DIR:      "/var/lib/neuraos/data"
+    volumes:
+      - neuraos-data:/var/lib/neuraos/data
+      - neuraos-logs:/var/lib/neuraos/logs
+      - ./config:/etc/neuraos:ro
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - neuraos-net
+
+  # ── Qdrant (vector database) ─────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant:v1.9.0
+    container_name: neuraos-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"   # REST
+      - "6334:6334"   # gRPC
+    volumes:
+      - qdrant-data:/qdrant/storage
+    environment:
+      QDRANT__LOG_LEVEL: "INFO"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:6333/readyz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - neuraos-net
+
+  # ── Redis (cache + pub/sub) ──────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: neuraos-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: >
+      redis-server
+        --save 60 1
+        --loglevel warning
+        --maxmemory 256mb
+        --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - neuraos-net
+
+  # ── PostgreSQL (audit log / relational store) ────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: neuraos-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB:       neuraos
+      POSTGRES_USER:     neuraos
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-neuraos}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U neuraos -d neuraos"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - neuraos-net
+
+# ── Named volumes ──────────────────────────────────────────────
+volumes:
+  neuraos-data:
+    name: neuraos_data
+  neuraos-logs:
+    name: neuraos_logs
+  qdrant-data:
+    name: neuraos_qdrant
+  redis-data:
+    name: neuraos_redis
+  postgres-data:
+    name: neuraos_postgres
+
+# ── Network ────────────────────────────────────────────────────
+networks:
+  neuraos-net:
+    name: neuraos
+    driver: bridge
