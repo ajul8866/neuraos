@@ -1,0 +1,22 @@
+[package]
+name        = "neuraos-memory"
+description = "Working, episodic, semantic, and graph memory for NeuraOS agents"
+version.workspace    = true
+edition.workspace    = true
+rust-version.workspace = true
+license.workspace    = true
+
+[dependencies]
+neuraos-types  = { workspace = true }
+neuraos-config = { workspace = true }
+serde          = { workspace = true }
+serde_json     = { workspace = true }
+tokio          = { workspace = true }
+tracing        = { workspace = true }
+thiserror      = { workspace = true }
+dashmap        = { workspace = true }
+chrono         = { workspace = true }
+uuid           = { workspace = true }
+rusqlite       = { workspace = true }
+ordered-float  = "4"
+rand           = { workspace = true }
