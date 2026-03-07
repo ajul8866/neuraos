@@ -1,0 +1,17 @@
+[package]
+name = "neuraos-desktop"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Desktop app: system tray, notifications, local UI"
+
+[dependencies]
+neuraos-types  = { path = "../neuraos-types" }
+serde          = { workspace = true }
+serde_json     = { workspace = true }
+tokio          = { workspace = true }
+anyhow         = { workspace = true }
+thiserror      = { workspace = true }
+tracing        = "0.1"
