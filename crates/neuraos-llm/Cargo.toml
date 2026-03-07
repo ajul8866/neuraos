@@ -1,0 +1,23 @@
+[package]
+name        = "neuraos-llm"
+description = "Multi-provider LLM router with caching, streaming, and cost optimization"
+version.workspace    = true
+edition.workspace    = true
+rust-version.workspace = true
+license.workspace    = true
+
+[dependencies]
+neuraos-types   = { workspace = true }
+neuraos-config  = { workspace = true }
+serde           = { workspace = true }
+serde_json      = { workspace = true }
+tokio           = { workspace = true }
+tokio-stream    = { workspace = true }
+futures         = { workspace = true }
+async-trait     = { workspace = true }
+reqwest         = { workspace = true }
+tracing         = { workspace = true }
+thiserror       = { workspace = true }
+dashmap         = { workspace = true }
+uuid            = { workspace = true }
+pin-project     = { workspace = true }
