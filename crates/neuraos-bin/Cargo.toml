@@ -1,0 +1,31 @@
+[package]
+name        = "neuraos"
+description = "NeuraOS — Agent Operating System binary"
+version.workspace    = true
+edition.workspace    = true
+rust-version.workspace = true
+license.workspace    = true
+
+[[bin]]
+name = "neuraos"
+path = "src/main.rs"
+
+[dependencies]
+neuraos-types    = { workspace = true }
+neuraos-config   = { workspace = true }
+neuraos-kernel   = { workspace = true }
+neuraos-runtime  = { workspace = true }
+neuraos-memory   = { workspace = true }
+neuraos-llm      = { workspace = true }
+neuraos-tools    = { workspace = true }
+neuraos-api      = { workspace = true }
+neuraos-shield   = { workspace = true }
+neuraos-agents   = { workspace = true }
+tokio            = { workspace = true }
+tracing          = { workspace = true }
+tracing-subscriber = { workspace = true }
+clap             = { workspace = true }
+dotenvy          = { workspace = true }
+anyhow           = { workspace = true }
+colored          = { workspace = true }
+num_cpus         = { workspace = true }
