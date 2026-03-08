@@ -1,0 +1,19 @@
+[package]
+name = "neuraos-telemetry"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Telemetry: tracing, metrics, and observability for NeuraOS"
+
+[dependencies]
+neuraos-types  = { path = "../neuraos-types" }
+serde          = { workspace = true }
+serde_json     = { workspace = true }
+tokio          = { workspace = true }
+anyhow         = { workspace = true }
+thiserror      = { workspace = true }
+tracing        = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json", "fmt"] }
+opentelemetry  = { version = "0.26", features = ["trace", "metrics"] }
