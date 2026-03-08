@@ -1,4 +1,4 @@
-//! GroqProvider provider — OpenAI-compatible API.
+//! Groq provider — ultra-fast inference via Groq Cloud API.
 
 use super::{check_status, json_str, json_u64, messages_to_openai, LlmProvider, ModelInfo, ProviderError};
 use crate::router::{CompletionRequest, CompletionResponse};
@@ -23,7 +23,7 @@ impl GroqProvider {
             api_key: api_key.into(),
             base_url: "https://api.groq.com/openai/v1".into(),
             client: reqwest::Client::builder()
-                .timeout(std::time::Duration::from_secs(120))
+                .timeout(std::time::Duration::from_secs(60))
                 .build()
                 .expect("HTTP client"),
             models: Self::static_models(),
@@ -37,34 +37,50 @@ impl GroqProvider {
     fn static_models() -> Vec<ModelInfo> {
         vec![
             ModelInfo {
-                id: "llama-3.3-70b-versatile".into(), display_name: "LLaMA 3.3 70B".into(),
-                context_length: 128000, cost_per_1k_input: 0.00059, cost_per_1k_output: 0.00079,
-                supports_vision: false, supports_function_calling: true,
+                id: "llama-3.3-70b-versatile".into(),
+                display_name: "Llama 3.3 70B Versatile".into(),
+                context_length: 128000,
+                cost_per_1k_input: 0.00059,
+                cost_per_1k_output: 0.00079,
+                supports_vision: false,
+                supports_function_calling: true,
                 supports_json_mode: true,
             },
             ModelInfo {
-                id: "llama-3.1-8b-instant".into(), display_name: "LLaMA 3.1 8B".into(),
-                context_length: 128000, cost_per_1k_input: 5e-05, cost_per_1k_output: 8e-05,
-                supports_vision: false, supports_function_calling: true,
-                supports_json_mode: false,
+                id: "llama-3.1-8b-instant".into(),
+                display_name: "Llama 3.1 8B Instant".into(),
+                context_length: 128000,
+                cost_per_1k_input: 0.00005,
+                cost_per_1k_output: 0.00008,
+                supports_vision: false,
+                supports_function_calling: true,
+                supports_json_mode: true,
             },
             ModelInfo {
-                id: "mixtral-8x7b-32768".into(), display_name: "Mixtral 8x7B".into(),
-                context_length: 32768, cost_per_1k_input: 0.00027, cost_per_1k_output: 0.00027,
-                supports_vision: false, supports_function_calling: false,
-                supports_json_mode: false,
+                id: "mixtral-8x7b-32768".into(),
+                display_name: "Mixtral 8x7B".into(),
+                context_length: 32768,
+                cost_per_1k_input: 0.00024,
+                cost_per_1k_output: 0.00024,
+                supports_vision: false,
+                supports_function_calling: true,
+                supports_json_mode: true,
             },
             ModelInfo {
-                id: "gemma2-9b-it".into(), display_name: "Gemma2 9B".into(),
-                context_length: 8192, cost_per_1k_input: 0.0002, cost_per_1k_output: 0.0002,
-                supports_vision: false, supports_function_calling: false,
-                supports_json_mode: false,
+                id: "gemma2-9b-it".into(),
+                display_name: "Gemma 2 9B IT".into(),
+                context_length: 8192,
+                cost_per_1k_input: 0.0002,
+                cost_per_1k_output: 0.0002,
+                supports_vision: false,
+                supports_function_calling: false,
+                supports_json_mode: true,
             },
         ]
     }
 
     fn default_model(&self) -> &str {
-        self.models.first().map(|m| m.id.as_str()).unwrap_or("gpt-4o-mini")
+        self.models.first().map(|m| m.id.as_str()).unwrap_or("llama-3.3-70b-versatile")
     }
 }
 
@@ -80,6 +96,8 @@ impl LlmProvider for GroqProvider {
         }
 
         let model = req.model.as_deref().unwrap_or_else(|| self.default_model());
+        debug!(provider = "groq", model, "sending completion request");
+
         let body = serde_json::json!({
             "model": model,
             "messages": messages_to_openai(&req.messages),
@@ -125,28 +143,8 @@ impl LlmProvider for GroqProvider {
         Err(ProviderError::Stream("streaming not yet implemented for groq".into()))
     }
 
-    async fn embed(&self, texts: &[String]) -> Result<Vec<Vec<f32>>, ProviderError> {
-        if self.api_key.is_empty() {
-            return Err(ProviderError::NotConfigured);
-        }
-        let body = serde_json::json!({
-            "model": "text-embedding-ada-002",
-            "input": texts,
-        });
-        let resp = self.client
-            .post(format!("{}/embeddings", self.base_url))
-            .header("Authorization", format!("Bearer {}", self.api_key))
-            .json(&body)
-            .send()
-            .await?;
-        let resp = check_status(resp).await?;
-        let json: serde_json::Value = resp.json().await?;
-        let data = json.get("data").and_then(|d| d.as_array())
-            .ok_or_else(|| ProviderError::Stream("no data in embed response".into()))?;
-        data.iter().map(|item| {
-            let emb = item.get("embedding").and_then(|e| e.as_array())
-                .ok_or_else(|| ProviderError::Stream("no embedding".into()))?;
-            Ok(emb.iter().filter_map(|v| v.as_f64().map(|f| f as f32)).collect())
-        }).collect()
+    async fn embed(&self, _texts: &[String]) -> Result<Vec<Vec<f32>>, ProviderError> {
+        warn!(provider = "groq", "embed not supported by Groq");
+        Err(ProviderError::Stream("Groq does not support embeddings".into()))
     }
 }
