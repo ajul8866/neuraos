@@ -4,6 +4,9 @@ pub mod error;
 
 pub use error::{NeuraError, Result};
 
+/// Convenience alias so crates can write `NeuraResult<T>` instead of `Result<T, NeuraError>`.
+pub type NeuraResult<T> = std::result::Result<T, NeuraError>;
+
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use uuid::Uuid;
@@ -162,25 +165,33 @@ impl Task {
 /// Result of executing a task.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TaskResult {
-    pub task_id:    String,
-    pub status:     TaskStatus,
-    pub output:     Option<serde_json::Value>,
-    pub error:      Option<String>,
+    pub task_id:     String,
+    pub status:      TaskStatus,
+    pub output:      Option<serde_json::Value>,
+    pub error:       Option<String>,
     pub tokens_used: u32,
-    pub cost_usd:   f64,
+    pub cost_usd:    f64,
     pub duration_ms: u64,
 }
 
 // ── Tool ─────────────────────────────────────────────────────────────────────
 
-/// Tool capability descriptor — what a tool can do.
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ToolCapability {
-    pub name:        String,
-    pub description: String,
-    pub parameters:  serde_json::Value,
-    pub category:    String,
-    pub safe:        bool,
+/// Tool capability enum — what a tool can do.
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ToolCapability {
+    HttpGet,
+    HttpPost,
+    WebSearch,
+    WebScrape,
+    BashExec,
+    PythonExec,
+    ReadFile,
+    WriteFile,
+    SqlQuery,
+    GitDiff,
+    SendEmail,
+    Custom(String),
 }
 
 /// Tool call request from an LLM.
