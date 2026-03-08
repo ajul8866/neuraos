@@ -1,12 +1,13 @@
-//! Ollama local provider — runs models on-device.
+//! Ollama provider — local LLM inference via Ollama REST API.
 
-use super::{check_status, LlmProvider, ModelInfo, ProviderError};
+use super::{check_status, json_str, json_u64, messages_to_openai, LlmProvider, ModelInfo, ProviderError};
 use crate::router::{CompletionRequest, CompletionResponse};
 use crate::streaming::StreamChunk;
 use async_trait::async_trait;
 use futures::Stream;
 use neuraos_types::TokenUsage;
 use std::pin::Pin;
+use tracing::debug;
 use uuid::Uuid;
 
 pub struct OllamaProvider {
@@ -17,39 +18,71 @@ pub struct OllamaProvider {
 
 impl OllamaProvider {
     pub fn new(base_url: impl Into<String>) -> Self {
-        let url = base_url.into();
         Self {
-            base_url: url,
+            base_url: base_url.into(),
             client: reqwest::Client::builder()
                 .timeout(std::time::Duration::from_secs(300))
                 .build()
                 .expect("HTTP client"),
-            models: Self::default_models(),
+            models: Self::static_models(),
         }
     }
 
-    pub fn default() -> Self {
-        Self::new("http://localhost:11434")
+    /// Creates an Ollama provider from environment variables.
+    /// Uses OLLAMA_BASE_URL or defaults to http://localhost:11434
+    pub fn from_env() -> Self {
+        let base_url = std::env::var("OLLAMA_BASE_URL")
+            .unwrap_or_else(|_| "http://localhost:11434".into());
+        Self::new(base_url)
     }
 
-    fn default_models() -> Vec<ModelInfo> {
-        // Ollama's available models depend on what is pulled locally
+    fn static_models() -> Vec<ModelInfo> {
         vec![
-            ModelInfo { id: "llama3.2".into(), display_name: "LLaMA 3.2".into(),
-                context_length: 128000, cost_per_1k_input: 0.0, cost_per_1k_output: 0.0,
-                supports_vision: false, supports_function_calling: true, supports_json_mode: true },
-            ModelInfo { id: "mistral".into(), display_name: "Mistral 7B".into(),
-                context_length: 32768, cost_per_1k_input: 0.0, cost_per_1k_output: 0.0,
-                supports_vision: false, supports_function_calling: false, supports_json_mode: false },
-            ModelInfo { id: "codellama".into(), display_name: "CodeLlama".into(),
-                context_length: 100000, cost_per_1k_input: 0.0, cost_per_1k_output: 0.0,
-                supports_vision: false, supports_function_calling: false, supports_json_mode: false },
+            ModelInfo {
+                id: "llama3.2".into(),
+                display_name: "Llama 3.2 (local)".into(),
+                context_length: 131072,
+                cost_per_1k_input: 0.0,
+                cost_per_1k_output: 0.0,
+                supports_vision: false,
+                supports_function_calling: false,
+                supports_json_mode: true,
+            },
+            ModelInfo {
+                id: "mistral".into(),
+                display_name: "Mistral 7B (local)".into(),
+                context_length: 32768,
+                cost_per_1k_input: 0.0,
+                cost_per_1k_output: 0.0,
+                supports_vision: false,
+                supports_function_calling: false,
+                supports_json_mode: true,
+            },
+            ModelInfo {
+                id: "gemma2".into(),
+                display_name: "Gemma 2 (local)".into(),
+                context_length: 8192,
+                cost_per_1k_input: 0.0,
+                cost_per_1k_output: 0.0,
+                supports_vision: false,
+                supports_function_calling: false,
+                supports_json_mode: false,
+            },
+            ModelInfo {
+                id: "qwen2.5-coder".into(),
+                display_name: "Qwen 2.5 Coder (local)".into(),
+                context_length: 32768,
+                cost_per_1k_input: 0.0,
+                cost_per_1k_output: 0.0,
+                supports_vision: false,
+                supports_function_calling: false,
+                supports_json_mode: true,
+            },
         ]
     }
 
-    fn is_reachable(&self) -> bool {
-        // Quick synchronous check — in practice use an async health endpoint
-        true
+    fn default_model(&self) -> &str {
+        self.models.first().map(|m| m.id.as_str()).unwrap_or("llama3.2")
     }
 }
 
@@ -57,61 +90,47 @@ impl OllamaProvider {
 impl LlmProvider for OllamaProvider {
     fn name(&self) -> &str { "ollama" }
     fn models(&self) -> &[ModelInfo] { &self.models }
-    fn is_available(&self) -> bool { true } // Always available (local)
+    fn is_available(&self) -> bool { true } // always try; server may be local
 
     async fn complete(&self, req: &CompletionRequest) -> Result<CompletionResponse, ProviderError> {
-        let model = req.model.as_deref().unwrap_or("llama3.2");
+        let model = req.model.as_deref().unwrap_or_else(|| self.default_model());
+        debug!(provider = "ollama", model, "sending completion request");
 
-        // Use /api/chat endpoint (OpenAI-compatible in newer Ollama versions)
-        let messages: Vec<serde_json::Value> = req.messages.iter().map(|m| {
-            use neuraos_types::{MessageContent, Role};
-            let role = match m.role {
-                Role::System => "system",
-                Role::User => "user",
-                Role::Assistant => "assistant",
-                Role::Tool => "user",
-            };
-            let content = match &m.content {
-                MessageContent::Text { text } => text.clone(),
-                _ => "[complex content]".into(),
-            };
-            serde_json::json!({ "role": role, "content": content })
-        }).collect();
-
+        // Use OpenAI-compatible /v1/chat/completions endpoint (Ollama >= 0.1.24)
         let body = serde_json::json!({
             "model": model,
-            "messages": messages,
+            "messages": messages_to_openai(&req.messages),
+            "temperature": req.temperature.unwrap_or(0.7),
             "stream": false,
             "options": {
-                "temperature": req.temperature.unwrap_or(0.7),
                 "num_predict": req.max_tokens.unwrap_or(4096),
             }
         });
 
         let resp = self.client
-            .post(format!("{}/api/chat", self.base_url))
+            .post(format!("{}/v1/chat/completions", self.base_url))
+            .header("Content-Type", "application/json")
             .json(&body)
             .send()
-            .await
-            .map_err(|e| ProviderError::Http { status: 503, body: e.to_string() })?;
+            .await?;
 
         let resp = check_status(resp).await?;
         let json: serde_json::Value = resp.json().await?;
 
-        let content = json.get("message")
-            .and_then(|m| m.get("content")).and_then(|c| c.as_str())
-            .unwrap_or("").to_string();
-
-        let prompt_tokens = json.get("prompt_eval_count").and_then(|t| t.as_u64()).unwrap_or(0) as u32;
-        let completion_tokens = json.get("eval_count").and_then(|t| t.as_u64()).unwrap_or(0) as u32;
+        let content = json_str(&json, &["choices", "0", "message", "content"])
+            .unwrap_or_default();
+        let finish = json_str(&json, &["choices", "0", "finish_reason"])
+            .unwrap_or_else(|| "stop".into());
+        let prompt_tokens = json_u64(&json, &["usage", "prompt_tokens"]).unwrap_or(0) as u32;
+        let completion_tokens = json_u64(&json, &["usage", "completion_tokens"]).unwrap_or(0) as u32;
 
         Ok(CompletionResponse {
-            id: Uuid::new_v4().to_string(),
+            id: json_str(&json, &["id"]).unwrap_or_else(|| Uuid::new_v4().to_string()),
             model: model.to_string(),
             provider: "ollama".into(),
             content,
             tool_calls: None,
-            finish_reason: "stop".into(),
+            finish_reason: finish,
             usage: TokenUsage::new(prompt_tokens, completion_tokens, 0.0),
             latency_ms: 0,
         })
@@ -124,7 +143,7 @@ impl LlmProvider for OllamaProvider {
     }
 
     async fn embed(&self, texts: &[String]) -> Result<Vec<Vec<f32>>, ProviderError> {
-        let mut results = Vec::new();
+        let mut result = Vec::with_capacity(texts.len());
         for text in texts {
             let body = serde_json::json!({
                 "model": "nomic-embed-text",
@@ -134,15 +153,13 @@ impl LlmProvider for OllamaProvider {
                 .post(format!("{}/api/embeddings", self.base_url))
                 .json(&body)
                 .send()
-                .await
-                .map_err(|e| ProviderError::Http { status: 503, body: e.to_string() })?;
+                .await?;
             let resp = check_status(resp).await?;
             let json: serde_json::Value = resp.json().await?;
             let emb = json.get("embedding").and_then(|e| e.as_array())
-                .map(|arr| arr.iter().filter_map(|v| v.as_f64().map(|f| f as f32)).collect())
-                .unwrap_or_default();
-            results.push(emb);
+                .ok_or_else(|| ProviderError::Stream("no embedding in ollama response".into()))?;
+            result.push(emb.iter().filter_map(|v| v.as_f64().map(|f| f as f32)).collect());
         }
-        Ok(results)
+        Ok(result)
     }
 }
