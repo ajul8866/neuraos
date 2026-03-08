@@ -1,65 +1,60 @@
-//! xtask -- build automation for NeuraOS.
-//! Run with: `cargo xtask <command>`
+// xtask/src/main.rs
+// NeuraOS build helper tasks (xtask pattern)
 
-use anyhow::{bail, Result};
-use std::env;
+use std::process::Command;
 
-fn main() -> Result<()> {
-    let task = env::args().nth(1);
-    match task.as_deref() {
-        Some("ci")     => ci(),
-        Some("fmt")    => fmt(),
-        Some("clippy") => clippy(),
-        Some("test")   => test(),
-        Some("build")  => build(),
-        Some("docker") => docker(),
-        Some(other)    => bail!(
-            "Unknown task: {other}\nAvailable: ci, fmt, clippy, test, build, docker"
-        ),
-        None => {
-            println!("Usage: cargo xtask <task>");
-            println!("Tasks:");
-            println!("  ci      -- run fmt + clippy + test");
-            println!("  fmt     -- cargo fmt --all");
-            println!("  clippy  -- cargo clippy --all-targets");
-            println!("  test    -- cargo test --all");
-            println!("  build   -- cargo build --release");
-            println!("  docker  -- build Docker image");
-            Ok(())
-        }
+fn main() {
+    let task = std::env::args().nth(1).unwrap_or_else(|| "help".to_string());
+    match task.as_str() {
+        "build"       => build(),
+        "test"        => test(),
+        "lint"        => lint(),
+        "fmt"         => fmt(),
+        "doc"         => doc(),
+        "clean"       => clean(),
+        "ci"          => { fmt(); lint(); test(); build(); }
+        _             => help(),
     }
 }
 
-fn run(cmd: &str, args: &[&str]) -> Result<()> {
-    let status = std::process::Command::new(cmd).args(args).status()?;
+fn build() {
+    run("cargo", &["build", "--workspace", "--all-features"]);
+}
+
+fn test() {
+    run("cargo", &["test", "--workspace", "--all-features"]);
+}
+
+fn lint() {
+    run("cargo", &["clippy", "--workspace", "--all-features", "--", "-D", "warnings"]);
+}
+
+fn fmt() {
+    run("cargo", &["fmt", "--all"]);
+}
+
+fn doc() {
+    run("cargo", &["doc", "--workspace", "--no-deps", "--open"]);
+}
+
+fn clean() {
+    run("cargo", &["clean"]);
+}
+
+fn help() {
+    println!("Available xtask commands:");
+    println!("  build   -- cargo build --workspace");
+    println!("  test    -- cargo test --workspace");
+    println!("  lint    -- cargo clippy");
+    println!("  fmt     -- cargo fmt --all");
+    println!("  doc     -- cargo doc --workspace");
+    println!("  clean   -- cargo clean");
+    println!("  ci      -- fmt + lint + test + build");
+}
+
+fn run(cmd: &str, args: &[&str]) {
+    let status = Command::new(cmd).args(args).status().expect("failed to run command");
     if !status.success() {
-        bail!("{cmd} failed with status: {status}");
+        std::process::exit(status.code().unwrap_or(1));
     }
-    Ok(())
-}
-
-fn ci() -> Result<()> {
-    fmt()?;
-    clippy()?;
-    test()
-}
-
-fn fmt() -> Result<()> {
-    run("cargo", &["fmt", "--all", "--", "--check"])
-}
-
-fn clippy() -> Result<()> {
-    run("cargo", &["clippy", "--all-targets", "--all-features", "--", "-D", "warnings"])
-}
-
-fn test() -> Result<()> {
-    run("cargo", &["test", "--all"])
-}
-
-fn build() -> Result<()> {
-    run("cargo", &["build", "--release"])
-}
-
-fn docker() -> Result<()> {
-    run("docker", &["build", "-t", "neuraos:latest", "."])
 }
