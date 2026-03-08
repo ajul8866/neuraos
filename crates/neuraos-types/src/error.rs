@@ -100,7 +100,11 @@ pub enum NeuraError {
 impl NeuraError {
     /// Returns true if the error is transient and the operation can be retried.
     pub fn is_retryable(&self) -> bool {
-        matches!(self, NeuraError::LlmRateLimit | NeuraError::Timeout(_) | NeuraError::Http { status, .. } if *status >= 500)
+        match self {
+            NeuraError::LlmRateLimit | NeuraError::Timeout(_) => true,
+            NeuraError::Http { status, .. } => *status >= 500,
+            _ => false,
+        }
     }
 
     /// HTTP-like status code for this error (useful for API responses).
