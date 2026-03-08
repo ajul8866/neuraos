@@ -1,6 +1,6 @@
 //! Role-Based Access Control engine with deny-override policy evaluation.
 
-use neuraos_types::{Policy, PolicyDecision, PolicyEffect, PolicyRule};
+use neuraos_types::{Policy, PolicyDecision, PolicyEffect};
 use dashmap::DashMap;
 use std::collections::HashSet;
 use tracing::{debug, warn};
@@ -29,7 +29,7 @@ impl std::fmt::Display for BuiltinRole {
     }
 }
 
-/// Subject → roles mapping.
+/// Subject -> roles mapping.
 #[derive(Default)]
 struct SubjectRoles {
     roles: HashSet<String>,
@@ -37,9 +37,9 @@ struct SubjectRoles {
 
 /// RBAC engine — evaluates access decisions for (subject, action, resource) triples.
 pub struct RbacEngine {
-    /// subject_id → set of role names
+    /// subject_id -> set of role names
     subject_roles: DashMap<String, SubjectRoles>,
-    /// role_name → policies
+    /// role_name -> policies
     role_policies: DashMap<String, Vec<Policy>>,
     /// Global policies (apply to all subjects).
     global_policies: Vec<Policy>,
@@ -184,12 +184,11 @@ impl RbacEngine {
             .map(|s| s.roles.iter().cloned().collect())
             .unwrap_or_default();
 
-        // Collect all applicable policies
-        let mut applicable: Vec<&Policy> = self.global_policies.iter().collect();
+        // Collect all applicable policies — clone to avoid holding DashMap refs
+        let mut applicable: Vec<Policy> = self.global_policies.clone();
         for role in &roles {
             if let Some(policies) = self.role_policies.get(role) {
-                let iter: Vec<&Policy> = policies.iter().collect();
-                applicable.extend(iter);
+                applicable.extend(policies.iter().cloned());
             }
         }
 
@@ -198,7 +197,7 @@ impl RbacEngine {
 
         let mut allow = false;
 
-        for policy in applicable {
+        for policy in &applicable {
             let rule_matches = policy.rules.iter().any(|rule| {
                 glob_match(&rule.resource, resource) && glob_match(&rule.action, action)
             });
@@ -219,7 +218,6 @@ impl RbacEngine {
                             approver: "admin".into(),
                         };
                     }
-                    _ => {}
                 }
             }
         }
@@ -261,7 +259,6 @@ fn glob_match_inner(pat: &[char], txt: &[char], pi: usize, ti: usize) -> bool {
         return ti == txt.len();
     }
     if pat[pi] == '*' {
-        // Try matching zero or more characters
         for skip in ti..=txt.len() {
             if glob_match_inner(pat, txt, pi + 1, skip) {
                 return true;
