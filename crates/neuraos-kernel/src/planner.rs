@@ -1,9 +1,8 @@
 //! MCTS-based task planner with greedy fallback.
 
 use neuraos_types::{Task, TaskStep, ToolCapability};
-use std::collections::HashMap;
 use std::time::{Duration, Instant};
-use tracing::{debug, info, warn};
+use tracing::{info, warn};
 use uuid::Uuid;
 
 /// Context provided to the planner for goal decomposition.
@@ -251,7 +250,7 @@ impl Planner {
         })
     }
 
-    fn generate_step(&self, goal: &str, context: &PlanContext, depth: usize) -> TaskStep {
+    fn generate_step(&self, goal: &str, _context: &PlanContext, depth: usize) -> TaskStep {
         let name = match depth {
             0 => format!("Analyse goal: {}", &goal[..goal.len().min(60)]),
             1 => "Gather required information".to_string(),
@@ -259,8 +258,7 @@ impl Planner {
             3 => "Verify results".to_string(),
             _ => format!("Refinement step {}", depth - 3),
         };
-        let mut step = TaskStep::new(name);
-        step
+        TaskStep::new(name)
     }
 
     fn rollout_reward(&self, _goal: &str, _context: &PlanContext, depth: usize) -> f64 {
