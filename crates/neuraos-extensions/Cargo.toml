@@ -1,18 +1,20 @@
 [package]
 name = "neuraos-extensions"
-version.workspace = true
-edition.workspace = true
-rust-version.workspace = true
-authors.workspace = true
-license.workspace = true
-description = "Extension system: third-party integrations and plugins"
+version = "0.1.0"
+edition = "2021"
+description = "Dynamic extension/plugin system for NeuraOS with hooks and sandboxing"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/ajul8866/neuraos"
 
 [dependencies]
-neuraos-types  = { path = "../neuraos-types" }
-serde          = { workspace = true }
-serde_json     = { workspace = true }
-tokio          = { workspace = true }
-async-trait    = { workspace = true }
-anyhow         = { workspace = true }
-thiserror      = { workspace = true }
-tracing        = "0.1"
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+thiserror = "1"
+tracing = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }
