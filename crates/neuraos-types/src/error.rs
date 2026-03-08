@@ -8,7 +8,7 @@ pub type Result<T, E = NeuraError> = std::result::Result<T, E>;
 /// Top-level error enum covering all NeuraOS subsystems.
 #[derive(Debug, Error)]
 pub enum NeuraError {
-    // ── Agent ────────────────────────────────────────────────────────────
+    // ── Agent ───────────────────────────────────────────────────────────────
     #[error("agent not found: {0}")]
     AgentNotFound(String),
 
@@ -18,7 +18,7 @@ pub enum NeuraError {
     #[error("agent error: {0}")]
     AgentError(String),
 
-    // ── Task ─────────────────────────────────────────────────────────────
+    // ── Task ────────────────────────────────────────────────────────────────
     #[error("task not found: {0}")]
     TaskNotFound(String),
 
@@ -28,7 +28,7 @@ pub enum NeuraError {
     #[error("task cancelled")]
     TaskCancelled,
 
-    // ── LLM / Provider ───────────────────────────────────────────────────
+    // ── LLM / Provider ────────────────────────────────────────────────────
     #[error("LLM provider error: {0}")]
     LlmProvider(String),
 
@@ -41,14 +41,14 @@ pub enum NeuraError {
     #[error("LLM response parse error: {0}")]
     LlmParse(String),
 
-    // ── Memory ───────────────────────────────────────────────────────────
+    // ── Memory ──────────────────────────────────────────────────────────────
     #[error("memory error: {0}")]
     Memory(String),
 
     #[error("memory entry not found: {0}")]
     MemoryNotFound(String),
 
-    // ── Tool ─────────────────────────────────────────────────────────────
+    // ── Tool ─────────────────────────────────────────────────────────────────
     #[error("tool not found: {0}")]
     ToolNotFound(String),
 
@@ -58,14 +58,14 @@ pub enum NeuraError {
     #[error("tool argument error: {0}")]
     ToolArgument(String),
 
-    // ── Config ───────────────────────────────────────────────────────────
+    // ── Config ────────────────────────────────────────────────────────────
     #[error("config error: {0}")]
     Config(String),
 
     #[error("config key not found: {0}")]
     ConfigNotFound(String),
 
-    // ── IO / Network ─────────────────────────────────────────────────────
+    // ── IO / Network ────────────────────────────────────────────────────
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
 
@@ -73,84 +73,37 @@ pub enum NeuraError {
     Http { status: u16, body: String },
 
     #[error("serialization error: {0}")]
-    Serde(#[from] serde_json::Error),
+    Serialization(String),
 
-    // ── Database ─────────────────────────────────────────────────────────
-    #[error("database error: {0}")]
-    Database(String),
+    #[error("deserialization error: {0}")]
+    Deserialization(String),
 
-    // ── Auth ─────────────────────────────────────────────────────────────
-    #[error("unauthorized: {0}")]
-    Unauthorized(String),
+    // ── Budget ───────────────────────────────────────────────────────────
+    #[error("budget exceeded: cost ${cost} > ${limit}")]
+    BudgetExceeded { cost: f64, limit: f64 },
 
-    #[error("forbidden: {0}")]
-    Forbidden(String),
+    #[error("token limit exceeded: used {used} > {limit}")]
+    TokenLimitExceeded { used: u32, limit: u32 },
 
-    // ── Generic ──────────────────────────────────────────────────────────
+    // ── Circuit Breaker ───────────────────────────────────────────────
+    #[error("circuit open: {0}")]
+    CircuitOpen(String),
+
+    // ── RBAC/Policy ───────────────────────────────────────────────────
+    #[error("permission denied: {0}")]
+    PermissionDenied(String),
+
+    #[error("approval required: {0}")]
+    ApprovalRequired(String),
+
+    // ── Input Validation ──────────────────────────────────────────────
+    #[error("invalid input: {0}")]
+    InvalidInput(String),
+
+    // ── Generic ─────────────────────────────────────────────────────────
+    #[error("{0}")]
+    Other(String),
+
     #[error("internal error: {0}")]
     Internal(String),
-
-    #[error("not implemented: {0}")]
-    NotImplemented(String),
-
-    #[error("timeout after {0}ms")]
-    Timeout(u64),
-}
-
-impl NeuraError {
-    /// Returns true if the error is transient and the operation can be retried.
-    pub fn is_retryable(&self) -> bool {
-        match self {
-            NeuraError::LlmRateLimit | NeuraError::Timeout(_) => true,
-            NeuraError::Http { status, .. } => *status >= 500,
-            _ => false,
-        }
-    }
-
-    /// HTTP-like status code for this error (useful for API responses).
-    pub fn status_code(&self) -> u16 {
-        match self {
-            NeuraError::AgentNotFound(_)
-            | NeuraError::TaskNotFound(_)
-            | NeuraError::MemoryNotFound(_)
-            | NeuraError::ToolNotFound(_)
-            | NeuraError::ConfigNotFound(_) => 404,
-
-            NeuraError::AgentAlreadyExists(_) => 409,
-
-            NeuraError::Unauthorized(_) => 401,
-            NeuraError::Forbidden(_)    => 403,
-
-            NeuraError::LlmRateLimit    => 429,
-            NeuraError::Timeout(_)      => 408,
-
-            NeuraError::ToolArgument(_)
-            | NeuraError::Config(_)
-            | NeuraError::LlmParse(_) => 400,
-
-            NeuraError::NotImplemented(_) => 501,
-
-            _ => 500,
-        }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn status_codes() {
-        assert_eq!(NeuraError::AgentNotFound("x".into()).status_code(), 404);
-        assert_eq!(NeuraError::Unauthorized("x".into()).status_code(), 401);
-        assert_eq!(NeuraError::LlmRateLimit.status_code(), 429);
-        assert_eq!(NeuraError::Internal("oops".into()).status_code(), 500);
-    }
-
-    #[test]
-    fn retryable() {
-        assert!(NeuraError::LlmRateLimit.is_retryable());
-        assert!(NeuraError::Timeout(1000).is_retryable());
-        assert!(!NeuraError::AgentNotFound("x".into()).is_retryable());
-    }
 }
