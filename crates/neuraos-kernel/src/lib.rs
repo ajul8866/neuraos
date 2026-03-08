@@ -5,9 +5,9 @@ pub mod planner;
 pub mod rbac;
 pub mod scheduler;
 
-pub use budget::BudgetManager;
-pub use circuit_breaker::CircuitBreaker;
-pub use event_bus::{EventBus, Event};
+pub use budget::BudgetGovernor;
+pub use circuit_breaker::CircuitBreakerRegistry;
+pub use event_bus::EventBus;
 pub use planner::Planner;
 pub use rbac::RbacEngine;
 pub use scheduler::Scheduler;
