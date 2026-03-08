@@ -1,1 +1,208 @@
-Ly8hIExMTSBSb3V0ZXIg4oCUIG11bHRpLXByb3ZpZGVyIHJvdXRpbmcgd2l0aCBmYWxsYmFjaywgY2FjaGluZywgYW5kIGNpcmN1aXQgYnJlYWtlcnMuCgp1c2UgY3JhdGU6OmNhY2hlOjpTZW1hbnRpY0NhY2hlOwp1c2UgY3JhdGU6Om9wdGltaXplcjo6e0xsbU9wdGltaXplciwgTW9kZWxSZXF1aXJlbWVudHMsIE1vZGVsU2VsZWN0aW9ufTsKdXNlIGNyYXRlOjpwcm92aWRlcnM6OkxsbVByb3ZpZGVyOwp1c2UgY3JhdGU6OnN0cmVhbWluZzo6U3RyZWFtQ2h1bms7CnVzZSBuZXVyYW9zX3R5cGVzOjp7TWVzc2FnZSwgUm9sZSwgVG9rZW5Vc2FnZX07CnVzZSBzdGQ6OmNvbGxlY3Rpb25zOjpIYXNoTWFwOwp1c2Ugc3RkOjpzeW5jOjpBcmM7CnVzZSBmdXR1cmVzOjpTdHJlYW07CnVzZSB0b2tpbzo6c3luYzo6UndMb2NrOwp1c2UgdHJhY2luZzo6e2RlYnVnLCBlcnJvciwgaW5mbywgd2Fybn07CnVzZSB1dWlkOjpVdWlkOwoKLy8g4pSA4pSA4pSAIFJlcXVlc3QgLyBSZXNwb25zZSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCi8vLyBJbnB1dCB0byBhbiBMTE0gY29tcGxldGlvbiBjYWxsLgojW2Rlcml2ZShEZWJ1ZywgQ2xvbmUpXQpwdWIgc3RydWN0IENvbXBsZXRpb25SZXF1ZXN0IHsKICAgIHB1YiBtZXNzYWdlczogVmVjPE1lc3NhZ2U+LAogICAgcHViIG1vZGVsOiBPcHRpb248U3RyaW5nPiwKICAgIHB1YiBwcm92aWRlcjogT3B0aW9uPFN0cmluZz4sCiAgICBwdWIgdGVtcGVyYXR1cmU6IE9wdGlvbjxmMzI+LAogICAgcHViIG1heF90b2tlbnM6IE9wdGlvbjx1MzI+LAogICAgcHViIHRvcF9wOiBPcHRpb248ZjMyPiwKICAgIHB1YiBzdG9wOiBWZWM8U3RyaW5nPiwKICAgIHB1YiB0b29sczogT3B0aW9uPHNlcmRlX2pzb246OlZhbHVlPiwKICAgIHB1YiByZXNwb25zZV9mb3JtYXQ6IE9wdGlvbjxSZXNwb25zZUZvcm1hdD4sCiAgICBwdWIgc3RyZWFtOiBib29sLAogICAgcHViIG1ldGFkYXRhOiBIYXNoTWFwPFN0cmluZywgc2VyZGVfanNvbjo6VmFsdWU+LAogICAgcHViIHJlcXVpcmVtZW50czogTW9kZWxSZXF1aXJlbWVudHMsCn0KCmltcGwgRGVmYXVsdCBmb3IgQ29tcGxldGlvblJlcXVlc3QgewogICAgZm4gZGVmYXVsdCgpIC0+IFNlbGYgewogICAgICAgIFNlbGYgewogICAgICAgICAgICBtZXNzYWdlczogVmVjOjpuZXcoKSwKICAgICAgICAgICAgbW9kZWw6IE5vbmUsCiAgICAgICAgICAgIHByb3ZpZGVyOiBOb25lLAogICAgICAgICAgICB0ZW1wZXJhdHVyZTogU29tZSgwLjcpLAogICAgICAgICAgICBtYXhfdG9rZW5zOiBTb21lKDQwOTYpLAogICAgICAgICAgICB0b3BfcDogU29tZSgxLjApLAogICAgICAgICAgICBzdG9wOiBWZWM6Om5ldygpLAogICAgICAgICAgICB0b29sczogTm9uZSwKICAgICAgICAgICAgcmVzcG9uc2VfZm9ybWF0OiBOb25lLAogICAgICAgICAgICBzdHJlYW06IGZhbHNlLAogICAgICAgICAgICBtZXRhZGF0YTogSGFzaE1hcDo6bmV3KCksCiAgICAgICAgICAgIHJlcXVpcmVtZW50czogTW9kZWxSZXF1aXJlbWVudHM6OmRlZmF1bHQoKSwKICAgICAgICB9CiAgICB9Cn0KCmltcGwgQ29tcGxldGlvblJlcXVlc3QgewogICAgcHViIGZuIHNpbXBsZShzeXN0ZW06ICZzdHIsIHVzZXI6ICZzdHIpIC0+IFNlbGYgewogICAgICAgIFNlbGYgewogICAgICAgICAgICBtZXNzYWdlczogdmVjIVsKICAgICAgICAgICAgICAgIE1lc3NhZ2U6OnN5c3RlbShzeXN0ZW0pLAogICAgICAgICAgICAgICAgTWVzc2FnZTo6dXNlcih1c2VyKSwKICAgICAgICAgICAgXSwKICAgICAgICAgICAgLi5EZWZhdWx0OjpkZWZhdWx0KCkKICAgICAgICB9CiAgICB9Cn0KCiNbZGVyaXZlKERlYnVnLCBDbG9uZSldCnB1YiBlbnVtIFJlc3BvbnNlRm9ybWF0IHsKICAgIFRleHQsCiAgICBKc29uT2JqZWN0LAogICAgSnNvblNjaGVtYSB7IHNjaGVtYTogc2VyZGVfanNvbjo6VmFsdWUgfSwKfQoKLy8vIFJlc3BvbnNlIGZyb20gYW4gTExNIGNvbXBsZXRpb24gY2FsbC4KI1tkZXJpdmUoRGVidWcsIENsb25lKV0KcHViIHN0cnVjdCBDb21wbGV0aW9uUmVzcG9uc2UgewogICAgcHViIGlkOiBTdHJpbmcsCiAgICBwdWIgbW9kZWw6IFN0cmluZywKICAgIHB1YiBwcm92aWRlcjogU3RyaW5nLAogICAgcHViIGNvbnRlbnQ6IFN0cmluZywKICAgIHB1YiB0b29sX2NhbGxzOiBPcHRpb248c2VyZGVfanNvbjo6VmFsdWU+LAogICAgcHViIGZpbmlzaF9yZWFzb246IFN0cmluZywKICAgIHB1YiB1c2FnZTogVG9rZW5Vc2FnZSwKICAgIHB1YiBsYXRlbmN5X21zOiB1NjQsCn0KCmltcGwgQ29tcGxldGlvblJlc3BvbnNlIHsKICAgIHB1YiBmbiB0ZXh0X2NvbnRlbnQoJnNlbGYpIC0+ICZzdHIgewogICAgICAgICZzZWxmLmNvbnRlbnQKICAgIH0KfQoKLy8g4pSA4pSA4pSAIFJvdXRpbmcgc3RyYXRlZ3kg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgojW2Rlcml2ZShEZWJ1ZywgQ2xvbmUsIERlZmF1bHQpXQpwdWIgZW51bSBSb3V0aW5nU3RyYXRlZ3kgewogICAgI1tkZWZhdWx0XQogICAgQ29zdE9wdGltaXplZCwKICAgIExhdGVuY3lPcHRpbWl6ZWQsCiAgICBRdWFsaXR5T3B0aW1pemVkLAogICAgUm91bmRSb2JpbiwKICAgIEZhaWxvdmVyLAp9CgovLyDilIDilIDilIAgTGxtUm91dGVyIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKLy8vIE1haW4gTExNIHJvdXRpbmcgZW50cnlwb2ludC4KcHViIHN0cnVjdCBMbG1Sb3V0ZXIgewogICAgcHJvdmlkZXJzOiBWZWM8QXJjPGR5biBMbG1Qcm92aWRlciArIFNlbmQgKyBTeW5jPj4sCiAgICBzdHJhdGVneTogUm91dGluZ1N0cmF0ZWd5LAogICAgY2FjaGU6IEFyYzxTZW1hbnRpY0NhY2hlPiwKICAgIG9wdGltaXplcjogQXJjPExsbU9wdGltaXplcj4sCiAgICByb3VuZF9yb2Jpbl9pZHg6IEFyYzxzdGQ6OnN5bmM6OmF0b21pYzo6QXRvbWljVXNpemU+LAp9CgppbXBsIExsbVJvdXRlciB7CiAgICBwdWIgZm4gbmV3KHN0cmF0ZWd5OiBSb3V0aW5nU3RyYXRlZ3ksIGNhY2hlOiBBcmM8U2VtYW50aWNDYWNoZT4sIG9wdGltaXplcjogQXJjPExsbU9wdGltaXplcj4pIC0+IFNlbGYgewogICAgICAgIFNlbGYgewogICAgICAgICAgICBwcm92aWRlcnM6IFZlYzo6bmV3KCksCiAgICAgICAgICAgIHN0cmF0ZWd5LAogICAgICAgICAgICBjYWNoZSwKICAgICAgICAgICAgb3B0aW1pemVyLAogICAgICAgICAgICByb3VuZF9yb2Jpbl9pZHg6IEFyYzo6bmV3KHN0ZDo6c3luYzo6YXRvbWljOjpBdG9taWNVc2l6ZTo6bmV3KDApKSwKICAgICAgICB9CiAgICB9CgogICAgcHViIGZuIGFkZF9wcm92aWRlcigmbXV0IHNlbGYsIHByb3ZpZGVyOiBBcmM8ZHluIExsbVByb3ZpZGVyICsgU2VuZCArIFN5bmM+KSB7CiAgICAgICAgaW5mbyEoIlJlZ2lzdGVyZWQgTExNIHByb3ZpZGVyOiB7fSIsIHByb3ZpZGVyLm5hbWUoKSk7CiAgICAgICAgc2VsZi5wcm92aWRlcnMucHVzaChwcm92aWRlcik7CiAgICB9CgogICAgLy8vIENvbXBsZXRlIGEgcmVxdWVzdCwgdXNpbmcgY2FjaGUgYW5kIHJvdXRpbmcgc3RyYXRlZ3kuCiAgICBwdWIgYXN5bmMgZm4gY29tcGxldGUoJnNlbGYsIHJlcTogQ29tcGxldGlvblJlcXVlc3QpIC0+IFJlc3VsdDxDb21wbGV0aW9uUmVzcG9uc2UsIFJvdXRlckVycm9yPiB7CiAgICAgICAgaWYgc2VsZi5wcm92aWRlcnMuaXNfZW1wdHkoKSB7CiAgICAgICAgICAgIHJldHVybiBFcnIoUm91dGVyRXJyb3I6Ok5vUHJvdmlkZXJzQ29uZmlndXJlZCk7CiAgICAgICAgfQoKICAgICAgICAvLyBTZWxlY3QgcHJvdmlkZXIocykgdG8gdHJ5CiAgICAgICAgbGV0IG9yZGVyZWQgPSBzZWxmLnNlbGVjdF9wcm92aWRlcnMoJnJlcSk7CgogICAgICAgIGxldCBtdXQgbGFzdF9lcnI6IE9wdGlvbjxSb3V0ZXJFcnJvcj4gPSBOb25lOwogICAgICAgIGZvciBwcm92aWRlciBpbiAmb3JkZXJlZCB7CiAgICAgICAgICAgIGRlYnVnISgiVHJ5aW5nIHByb3ZpZGVyOiB7fSIsIHByb3ZpZGVyLm5hbWUoKSk7CiAgICAgICAgICAgIGxldCBzdGFydCA9IHN0ZDo6dGltZTo6SW5zdGFudDo6bm93KCk7CiAgICAgICAgICAgIG1hdGNoIHByb3ZpZGVyLmNvbXBsZXRlKCZyZXEpLmF3YWl0IHsKICAgICAgICAgICAgICAgIE9rKG11dCByZXNwKSA9PiB7CiAgICAgICAgICAgICAgICAgICAgbGV0IGxhdGVuY3kgPSBzdGFydC5lbGFwc2VkKCkuYXNfbWlsbGlzKCkgYXMgdTY0OwogICAgICAgICAgICAgICAgICAgIHJlc3AubGF0ZW5jeV9tcyA9IGxhdGVuY3k7CiAgICAgICAgICAgICAgICAgICAgc2VsZi5vcHRpbWl6ZXIucmVjb3JkX3N1Y2Nlc3MoCiAgICAgICAgICAgICAgICAgICAgICAgICZmb3JtYXQhKCJ7fS97fSIsIHByb3ZpZGVyLm5hbWUoKSwgcmVzcC5tb2RlbCksCiAgICAgICAgICAgICAgICAgICAgICAgIGxhdGVuY3ksCiAgICAgICAgICAgICAgICAgICAgICAgIHJlc3AudXNhZ2UuY29zdF91c2QsCiAgICAgICAgICAgICAgICAgICAgICAgIDAuOSwKICAgICAgICAgICAgICAgICAgICApOwogICAgICAgICAgICAgICAgICAgIHJldHVybiBPayhyZXNwKTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIEVycihlKSA9PiB7CiAgICAgICAgICAgICAgICAgICAgd2FybiEoIlByb3ZpZGVyIHt9IGZhaWxlZDoge30iLCBwcm92aWRlci5uYW1lKCksIGUpOwogICAgICAgICAgICAgICAgICAgIHNlbGYub3B0aW1pemVyLnJlY29yZF9mYWlsdXJlKCZwcm92aWRlci5uYW1lKCkudG9fc3RyaW5nKCkpOwogICAgICAgICAgICAgICAgICAgIGxhc3RfZXJyID0gU29tZShSb3V0ZXJFcnJvcjo6UHJvdmlkZXJFcnJvciB7CiAgICAgICAgICAgICAgICAgICAgICAgIHByb3ZpZGVyOiBwcm92aWRlci5uYW1lKCkudG9fc3RyaW5nKCksCiAgICAgICAgICAgICAgICAgICAgICAgIG1lc3NhZ2U6IGUudG9fc3RyaW5nKCksCiAgICAgICAgICAgICAgICAgICAgfSk7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEVycihsYXN0X2Vyci51bndyYXBfb3IoUm91dGVyRXJyb3I6Ok5vUHJvdmlkZXJzQ29uZmlndXJlZCkpCiAgICB9CgogICAgLy8vIFNlbGVjdCBwcm92aWRlcnMgaW4gcHJpb3JpdHkgb3JkZXIgYmFzZWQgb24gdGhlIHJvdXRpbmcgc3RyYXRlZ3kuCiAgICBmbiBzZWxlY3RfcHJvdmlkZXJzPCdhPigmJ2Egc2VsZiwgcmVxOiAmQ29tcGxldGlvblJlcXVlc3QpIC0+IFZlYzwmJ2EgQXJjPGR5biBMbG1Qcm92aWRlciArIFNlbmQgKyBTeW5jPj4gewogICAgICAgIGxldCBhdmFpbGFibGU6IFZlYzxfPiA9IHNlbGYucHJvdmlkZXJzLml0ZXIoKS5maWx0ZXIofHB8IHAuaXNfYXZhaWxhYmxlKCkpLmNvbGxlY3QoKTsKICAgICAgICBpZiBhdmFpbGFibGUuaXNfZW1wdHkoKSB7CiAgICAgICAgICAgIHJldHVybiBzZWxmLnByb3ZpZGVycy5pdGVyKCkuY29sbGVjdCgpOwogICAgICAgIH0KCiAgICAgICAgLy8gSWYgYSBzcGVjaWZpYyBwcm92aWRlciBpcyByZXF1ZXN0ZWQsIHB1dCBpdCBmaXJzdAogICAgICAgIGlmIGxldCBTb21lKHByZWZfbmFtZSkgPSAmcmVxLnByb3ZpZGVyIHsKICAgICAgICAgICAgbGV0IG11dCBvcmRlcmVkOiBWZWM8Xz4gPSBhdmFpbGFibGUuY2xvbmUoKTsKICAgICAgICAgICAgb3JkZXJlZC5zb3J0X2J5X2tleSh8cHwgaWYgcC5uYW1lKCkgPT0gcHJlZl9uYW1lIHsgMHVzaXplIH0gZWxzZSB7IDEgfSk7CiAgICAgICAgICAgIHJldHVybiBvcmRlcmVkOwogICAgICAgIH0KCiAgICAgICAgbWF0Y2ggJnNlbGYuc3RyYXRlZ3kgewogICAgICAgICAgICBSb3V0aW5nU3RyYXRlZ3k6OlJvdW5kUm9iaW4gPT4gewogICAgICAgICAgICAgICAgbGV0IGlkeCA9IHNlbGYucm91bmRfcm9iaW5faWR4LmZldGNoX2FkZCgxLCBzdGQ6OnN5bmM6OmF0b21pYzo6T3JkZXJpbmc6OlJlbGF4ZWQpCiAgICAgICAgICAgICAgICAgICAgJSBhdmFpbGFibGUubGVuKCk7CiAgICAgICAgICAgICAgICBsZXQgbXV0IHY6IFZlYzxfPiA9IGF2YWlsYWJsZS5pbnRvX2l0ZXIoKS5jb2xsZWN0KCk7CiAgICAgICAgICAgICAgICB2LnJvdGF0ZV9sZWZ0KGlkeCk7CiAgICAgICAgICAgICAgICB2CiAgICAgICAgICAgIH0KICAgICAgICAgICAgUm91dGluZ1N0cmF0ZWd5OjpGYWlsb3ZlciA9PiBhdmFpbGFibGUsCiAgICAgICAgICAgIFJvdXRpbmdTdHJhdGVneTo6Q29zdE9wdGltaXplZCB8IFJvdXRpbmdTdHJhdGVneTo6TGF0ZW5jeU9wdGltaXplZCB8IFJvdXRpbmdTdHJhdGVneTo6UXVhbGl0eU9wdGltaXplZCA9PiB7CiAgICAgICAgICAgICAgICBsZXQgc2VsID0gc2VsZi5vcHRpbWl6ZXIuc2VsZWN0KCZyZXEucmVxdWlyZW1lbnRzKTsKICAgICAgICAgICAgICAgIGxldCBtdXQgb3JkZXJlZDogVmVjPF8+ID0gYXZhaWxhYmxlLmNsb25lKCk7CiAgICAgICAgICAgICAgICBvcmRlcmVkLnNvcnRfYnlfa2V5KHxwfCBpZiBwLm5hbWUoKSA9PSBzZWwucHJvdmlkZXIgeyAwdXNpemUgfSBlbHNlIHsgMSB9KTsKICAgICAgICAgICAgICAgIG9yZGVyZWQKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICAvLy8gRW1iZWQgdGV4dHMgdXNpbmcgdGhlIGZpcnN0IGF2YWlsYWJsZSBwcm92aWRlci4KICAgIHB1YiBhc3luYyBmbiBlbWJlZCgmc2VsZiwgdGV4dHM6ICZbU3RyaW5nXSkgLT4gUmVzdWx0PFZlYzxWZWM8ZjMyPj4sIFJvdXRlckVycm9yPiB7CiAgICAgICAgZm9yIHByb3ZpZGVyIGluICZzZWxmLnByb3ZpZGVycyB7CiAgICAgICAgICAgIGlmIHByb3ZpZGVyLmlzX2F2YWlsYWJsZSgpIHsKICAgICAgICAgICAgICAgIHJldHVybiBwcm92aWRlci5lbWJlZCh0ZXh0cykuYXdhaXQKICAgICAgICAgICAgICAgICAgICAubWFwX2Vycih8ZXwgUm91dGVyRXJyb3I6OlByb3ZpZGVyRXJyb3IgewogICAgICAgICAgICAgICAgICAgICAgICBwcm92aWRlcjogcHJvdmlkZXIubmFtZSgpLnRvX3N0cmluZygpLAogICAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlOiBlLnRvX3N0cmluZygpLAogICAgICAgICAgICAgICAgICAgIH0pOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIEVycihSb3V0ZXJFcnJvcjo6Tm9Qcm92aWRlcnNDb25maWd1cmVkKQogICAgfQoKICAgIHB1YiBmbiBwcm92aWRlcl9jb3VudCgmc2VsZikgLT4gdXNpemUgewogICAgICAgIHNlbGYucHJvdmlkZXJzLmxlbigpCiAgICB9CgogICAgcHViIGZuIGF2YWlsYWJsZV9tb2RlbHMoJnNlbGYpIC0+IFZlYzxTdHJpbmc+IHsKICAgICAgICBzZWxmLnByb3ZpZGVycy5pdGVyKCkuZmxhdF9tYXAofHB8IHAubW9kZWxzKCkuaXRlcigpLm1hcCh8bXwgbS5pZC5jbG9uZSgpKSkuY29sbGVjdCgpCiAgICB9Cn0KCiNbZGVyaXZlKERlYnVnLCB0aGlzZXJyb3I6OkVycm9yKV0KcHViIGVudW0gUm91dGVyRXJyb3IgewogICAgI1tlcnJvcigiTm8gTExNIHByb3ZpZGVycyBjb25maWd1cmVkIildCiAgICBOb1Byb3ZpZGVyc0NvbmZpZ3VyZWQsCiAgICAjW2Vycm9yKCJQcm92aWRlciAne3Byb3ZpZGVyfScgZXJyb3I6IHttZXNzYWdlfSIpXQogICAgUHJvdmlkZXJFcnJvciB7IHByb3ZpZGVyOiBTdHJpbmcsIG1lc3NhZ2U6IFN0cmluZyB9LAogICAgI1tlcnJvcigiQWxsIHtjb3VudH0gcHJvdmlkZXJzIGZhaWxlZCIpXQogICAgQWxsUHJvdmlkZXJzRmFpbGVkIHsgY291bnQ6IHVzaXplIH0sCiAgICAjW2Vycm9yKCJSYXRlIGxpbWl0ZWQgYnkgJ3twcm92aWRlcn0nLCByZXRyeSBhZnRlciB7cmV0cnlfYWZ0ZXJfc2Vjc31zIildCiAgICBSYXRlTGltaXRlZCB7IHByb3ZpZGVyOiBTdHJpbmcsIHJldHJ5X2FmdGVyX3NlY3M6IHU2NCB9LAogICAgI1tlcnJvcigiUmVxdWVzdCBlcnJvcjogezB9IildCiAgICBSZXF1ZXN0KCNbZnJvbV0gcmVxd2VzdDo6RXJyb3IpLAp9Cg==
+//! LLM Router — multi-provider routing with fallback, caching, and circuit breakers.
+
+use crate::cache::SemanticCache;
+use crate::optimizer::{LlmOptimizer, ModelRequirements, ModelSelection};
+use crate::providers::LlmProvider;
+use crate::streaming::StreamChunk;
+use neuraos_types::{Message, Role, TokenUsage};
+use std::collections::HashMap;
+use std::sync::Arc;
+use futures::Stream;
+use tokio::sync::RwLock;
+use tracing::{debug, error, info, warn};
+use uuid::Uuid;
+
+#[derive(Debug, Clone)]
+pub struct CompletionRequest {
+    pub messages: Vec<Message>,
+    pub model: Option<String>,
+    pub provider: Option<String>,
+    pub temperature: Option<f32>,
+    pub max_tokens: Option<u32>,
+    pub top_p: Option<f32>,
+    pub stop: Vec<String>,
+    pub tools: Option<serde_json::Value>,
+    pub response_format: Option<ResponseFormat>,
+    pub stream: bool,
+    pub metadata: HashMap<String, serde_json::Value>,
+    pub requirements: ModelRequirements,
+}
+
+impl Default for CompletionRequest {
+    fn default() -> Self {
+        Self {
+            messages: Vec::new(),
+            model: None,
+            provider: None,
+            temperature: Some(0.7),
+            max_tokens: Some(4096),
+            top_p: Some(1.0),
+            stop: Vec::new(),
+            tools: None,
+            response_format: None,
+            stream: false,
+            metadata: HashMap::new(),
+            requirements: ModelRequirements::default(),
+        }
+    }
+}
+
+impl CompletionRequest {
+    pub fn simple(system: &str, user: &str) -> Self {
+        Self {
+            messages: vec![Message::system(system), Message::user(user)],
+            ..Default::default()
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub enum ResponseFormat {
+    Text,
+    JsonObject,
+    JsonSchema { schema: serde_json::Value },
+}
+
+#[derive(Debug, Clone)]
+pub struct CompletionResponse {
+    pub id: String,
+    pub model: String,
+    pub provider: String,
+    pub content: String,
+    pub tool_calls: Option<serde_json::Value>,
+    pub finish_reason: String,
+    pub usage: TokenUsage,
+    pub latency_ms: u64,
+}
+
+impl CompletionResponse {
+    pub fn text_content(&self) -> &str { &self.content }
+}
+
+#[derive(Debug, Clone, Default)]
+pub enum RoutingStrategy {
+    #[default]
+    CostOptimized,
+    LatencyOptimized,
+    QualityOptimized,
+    RoundRobin,
+    Failover,
+}
+
+pub struct LlmRouter {
+    providers: Vec<Arc<dyn LlmProvider + Send + Sync>>,
+    strategy: RoutingStrategy,
+    cache: Arc<SemanticCache>,
+    optimizer: Arc<LlmOptimizer>,
+    round_robin_idx: Arc<std::sync::atomic::AtomicUsize>,
+}
+
+impl LlmRouter {
+    pub fn new(strategy: RoutingStrategy, cache: Arc<SemanticCache>, optimizer: Arc<LlmOptimizer>) -> Self {
+        Self {
+            providers: Vec::new(),
+            strategy,
+            cache,
+            optimizer,
+            round_robin_idx: Arc::new(std::sync::atomic::AtomicUsize::new(0)),
+        }
+    }
+
+    pub fn add_provider(&mut self, provider: Arc<dyn LlmProvider + Send + Sync>) {
+        info!("Registered LLM provider: {}", provider.name());
+        self.providers.push(provider);
+    }
+
+    pub async fn complete(&self, req: CompletionRequest) -> Result<CompletionResponse, RouterError> {
+        if self.providers.is_empty() {
+            return Err(RouterError::NoProvidersConfigured);
+        }
+
+        let ordered = self.select_providers(&req);
+        let mut last_err: Option<RouterError> = None;
+
+        for provider in &ordered {
+            debug!("Trying provider: {}", provider.name());
+            let start = std::time::Instant::now();
+            match provider.complete(&req).await {
+                Ok(mut resp) => {
+                    let latency = start.elapsed().as_millis() as u64;
+                    resp.latency_ms = latency;
+                    self.optimizer.record_success(
+                        &format!("{}/{}", provider.name(), resp.model),
+                        latency, resp.usage.cost_usd, 0.9,
+                    );
+                    return Ok(resp);
+                }
+                Err(e) => {
+                    warn!("Provider {} failed: {}", provider.name(), e);
+                    self.optimizer.record_failure(&provider.name().to_string());
+                    last_err = Some(RouterError::ProviderError {
+                        provider: provider.name().to_string(),
+                        message: e.to_string(),
+                    });
+                }
+            }
+        }
+
+        Err(last_err.unwrap_or(RouterError::NoProvidersConfigured))
+    }
+
+    fn select_providers<'a>(&'a self, req: &CompletionRequest) -> Vec<&'a Arc<dyn LlmProvider + Send + Sync>> {
+        let available: Vec<_> = self.providers.iter().filter(|p| p.is_available()).collect();
+        if available.is_empty() { return self.providers.iter().collect(); }
+
+        if let Some(pref_name) = &req.provider {
+            let mut ordered: Vec<_> = available.clone();
+            ordered.sort_by_key(|p| if p.name() == pref_name { 0usize } else { 1 });
+            return ordered;
+        }
+
+        match &self.strategy {
+            RoutingStrategy::RoundRobin => {
+                let idx = self.round_robin_idx.fetch_add(1, std::sync::atomic::Ordering::Relaxed) % available.len();
+                let mut v: Vec<_> = available.into_iter().collect();
+                v.rotate_left(idx);
+                v
+            }
+            RoutingStrategy::Failover => available,
+            _ => {
+                let sel = self.optimizer.select(&req.requirements);
+                let mut ordered: Vec<_> = available.clone();
+                ordered.sort_by_key(|p| if p.name() == sel.provider { 0usize } else { 1 });
+                ordered
+            }
+        }
+    }
+
+    pub async fn embed(&self, texts: &[String]) -> Result<Vec<Vec<f32>>, RouterError> {
+        for provider in &self.providers {
+            if provider.is_available() {
+                return provider.embed(texts).await.map_err(|e| RouterError::ProviderError {
+                    provider: provider.name().to_string(),
+                    message: e.to_string(),
+                });
+            }
+        }
+        Err(RouterError::NoProvidersConfigured)
+    }
+
+    pub fn provider_count(&self) -> usize { self.providers.len() }
+    pub fn available_models(&self) -> Vec<String> {
+        self.providers.iter().flat_map(|p| p.models().iter().map(|m| m.id.clone())).collect()
+    }
+}
+
+#[derive(Debug, thiserror::Error)]
+pub enum RouterError {
+    #[error("No LLM providers configured")]
+    NoProvidersConfigured,
+    #[error("Provider '{provider}' error: {message}")]
+    ProviderError { provider: String, message: String },
+    #[error("All {count} providers failed")]
+    AllProvidersFailed { count: usize },
+    #[error("Rate limited by '{provider}', retry after {retry_after_secs}s")]
+    RateLimited { provider: String, retry_after_secs: u64 },
+    #[error("Request error: {0}")]
+    Request(#[from] reqwest::Error),
+}
