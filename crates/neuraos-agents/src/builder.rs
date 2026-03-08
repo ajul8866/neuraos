@@ -1,7 +1,7 @@
-use anyhow::Result;
 use std::collections::HashMap;
+use neuraos_types::{NeuraError, NeuraResult};
 
-/// Builder for constructing agent configurations
+/// Builder for constructing agent configurations.
 #[derive(Debug, Default)]
 pub struct AgentBuilder {
     id: Option<String>,
@@ -73,10 +73,23 @@ impl AgentBuilder {
         self
     }
 
-    pub fn build(self) -> Result<AgentConfig> {
+    pub fn build(self) -> NeuraResult<AgentConfig> {
+        let id = self.id.unwrap_or_else(|| {
+            // Generate a simple unique ID without uuid crate dependency.
+            format!(
+                "agent-{:x}",
+                std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)
+                    .map(|d| d.as_nanos())
+                    .unwrap_or(0)
+            )
+        });
+        if self.name.is_none() {
+            return Err(NeuraError::InvalidInput("agent name is required".into()));
+        }
         Ok(AgentConfig {
-            id: self.id.unwrap_or_else(|| uuid::Uuid::new_v4().to_string()),
-            name: self.name.unwrap_or_else(|| "unnamed-agent".to_string()),
+            id,
+            name: self.name.unwrap(),
             description: self.description,
             model: self.model.unwrap_or_else(|| "gpt-4o".to_string()),
             system_prompt: self.system_prompt,
@@ -88,6 +101,7 @@ impl AgentBuilder {
     }
 }
 
+/// Fully-built agent configuration, ready for execution.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct AgentConfig {
     pub id: String,
