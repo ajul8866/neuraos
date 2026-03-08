@@ -48,7 +48,7 @@ impl EventBus {
     /// Subscribe and receive all events (no filter).
     pub fn subscribe_all(&self) -> impl Stream<Item = Arc<Event>> {
         BroadcastStream::new(self.sender.subscribe())
-            .filter_map(|r| async move { r.ok() })
+            .filter_map(|r| std::future::ready(r.ok()))
     }
 
     /// Subscribe with an event kind filter.
