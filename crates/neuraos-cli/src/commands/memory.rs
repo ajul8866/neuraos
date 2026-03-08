@@ -64,7 +64,7 @@ pub async fn cmd_memory_query(
 
 pub async fn cmd_memory_clear(client: &NeuraClient, args: &MemoryClearArgs) -> anyhow::Result<()> {
     if !args.yes {
-        print!("{} Clear ALL memory for agent {}? [y/N] ", "⚠".yellow().bold(), args.agent.bold());
+        print!("{} Clear ALL memory for agent {}? [y/N] ", "!".yellow().bold(), args.agent.bold());
         use std::io::{BufRead, Write};
         std::io::stdout().flush()?;
         let mut input = String::new();
