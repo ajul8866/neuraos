@@ -2,7 +2,7 @@
 
 use neuraos_types::{Policy, PolicyDecision, PolicyEffect, PolicyRule};
 use dashmap::DashMap;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use tracing::{debug, warn};
 
 /// Built-in roles with predefined permission sets.
@@ -188,7 +188,8 @@ impl RbacEngine {
         let mut applicable: Vec<&Policy> = self.global_policies.iter().collect();
         for role in &roles {
             if let Some(policies) = self.role_policies.get(role) {
-                applicable.extend(policies.iter());
+                let iter: Vec<&Policy> = policies.iter().collect();
+                applicable.extend(iter);
             }
         }
 
@@ -252,9 +253,6 @@ fn glob_match(pattern: &str, text: &str) -> bool {
     if pattern == "*" {
         return true;
     }
-    let mut pat_chars = pattern.chars().peekable();
-    let mut txt_chars = text.chars().peekable();
-
     glob_match_inner(&pattern.chars().collect::<Vec<_>>(), &text.chars().collect::<Vec<_>>(), 0, 0)
 }
 
