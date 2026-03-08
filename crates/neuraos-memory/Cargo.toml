@@ -1,1 +1,22 @@
-W3BhY2thZ2VdCm5hbWUgICAgICAgID0gIm5ldXJhb3MtbWVtb3J5IgpkZXNjcmlwdGlvbiA9ICJXb3JraW5nLCBlcGlzb2RpYywgc2VtYW50aWMsIGFuZCBncmFwaCBtZW1vcnkgZm9yIE5ldXJhT1MgYWdlbnRzIgp2ZXJzaW9uLndvcmtzcGFjZSAgICA9IHRydWUKZWRpdGlvbi53b3Jrc3BhY2UgICAgPSB0cnVlCnJ1c3QtdmVyc2lvbi53b3Jrc3BhY2UgPSB0cnVlCmxpY2Vuc2Uud29ya3NwYWNlICAgID0gdHJ1ZQoKW2RlcGVuZGVuY2llc10KbmV1cmFvcy10eXBlcyAgPSB7IHdvcmtzcGFjZSA9IHRydWUgfQpuZXVyYW9zLWNvbmZpZyA9IHsgd29ya3NwYWNlID0gdHJ1ZSB9CnNlcmRlICAgICAgICAgID0geyB3b3Jrc3BhY2UgPSB0cnVlIH0Kc2VyZGVfanNvbiAgICAgPSB7IHdvcmtzcGFjZSA9IHRydWUgfQp0b2tpbyAgICAgICAgICA9IHsgd29ya3NwYWNlID0gdHJ1ZSB9CnRyYWNpbmcgICAgICAgID0geyB3b3Jrc3BhY2UgPSB0cnVlIH0KdGhpc2Vycm9yICAgICAgPSB7IHdvcmtzcGFjZSA9IHRydWUgfQpkYXNobWFwICAgICAgICA9IHsgd29ya3NwYWNlID0gdHJ1ZSB9CmNocm9ubyAgICAgICAgID0geyB3b3Jrc3BhY2UgPSB0cnVlIH0KdXVpZCAgICAgICAgICAgPSB7IHdvcmtzcGFjZSA9IHRydWUgfQpydXNxbGl0ZSAgICAgICA9IHsgd29ya3NwYWNlID0gdHJ1ZSB9Cm9yZGVyZWQtZmxvYXQgID0gIjQiCnJhbmQgICAgICAgICAgID0geyB3b3Jrc3BhY2UgPSB0cnVlIH0K
+[package]
+name        = "neuraos-memory"
+description = "Working, episodic, semantic, and graph memory for NeuraOS agents"
+version.workspace    = true
+edition.workspace    = true
+rust-version.workspace = true
+license.workspace    = true
+
+[dependencies]
+neuraos-types  = { workspace = true }
+neuraos-config = { workspace = true }
+serde          = { workspace = true }
+serde_json     = { workspace = true }
+tokio          = { workspace = true }
+tracing        = { workspace = true }
+thiserror      = { workspace = true }
+dashmap        = { workspace = true }
+chrono         = { workspace = true }
+uuid           = { workspace = true }
+rusqlite       = { workspace = true }
+ordered-float  = "4"
+rand           = { workspace = true }
