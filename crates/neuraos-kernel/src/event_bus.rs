@@ -6,7 +6,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use tokio::sync::broadcast;
 use tokio_stream::wrappers::BroadcastStream;
 use tokio_stream::{Stream, StreamExt};
-use tracing::{debug, warn};
+use tracing::debug;
 
 const DEFAULT_CAPACITY: usize = 10_000;
 
@@ -48,7 +48,7 @@ impl EventBus {
     /// Subscribe and receive all events (no filter).
     pub fn subscribe_all(&self) -> impl Stream<Item = Arc<Event>> {
         BroadcastStream::new(self.sender.subscribe())
-            .filter_map(|r| std::future::ready(r.ok()))
+            .filter_map(|r| r.ok())
     }
 
     /// Subscribe with an event kind filter.
@@ -58,11 +58,8 @@ impl EventBus {
     ) -> impl Stream<Item = Arc<Event>> {
         BroadcastStream::new(self.sender.subscribe())
             .filter_map(move |r| {
-                let f = filter.clone();
-                async move {
-                    let evt = r.ok()?;
-                    if f.matches(&evt) { Some(evt) } else { None }
-                }
+                let evt = r.ok()?;
+                if filter.matches(&evt) { Some(evt) } else { None }
             })
     }
 
