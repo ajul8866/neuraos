@@ -1,5 +1,5 @@
 pub mod agent;
-pub mod task;
-pub mod memory;
-pub mod tool;
 pub mod chat;
+pub mod config;
+pub mod memory;
+pub mod task;
