@@ -6,7 +6,7 @@
 
 use std::collections::HashSet;
 
-use neuraos_types::tool::ToolCapability;
+use neuraos_types::ToolCapability;
 use serde::{Deserialize, Serialize};
 
 // ─── Local manifest types ────────────────────────────────────────────────────
@@ -149,7 +149,7 @@ impl AgentManifest {
     }
 }
 
-// ─── Private builder helpers ─────────────────────────────────────────────────
+// ─── Private builder helpers ─────────────────────────────────────────────
 
 fn model(id: &str, quality: f64, cost: f64, speed: f64) -> ModelPreference {
     ModelPreference {
@@ -189,7 +189,7 @@ fn budget(
     }
 }
 
-// ─── 1. Researcher ───────────────────────────────────────────────────────────
+// ─── 1. Researcher ────────────────────────────────────────────────────────────────────
 
 /// Deep-research specialist: web search, summarisation, fact-checking.
 pub fn researcher() -> AgentManifest {
@@ -200,10 +200,10 @@ pub fn researcher() -> AgentManifest {
             cross-references facts, and produces well-structured cited reports."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::HttpGet,
-            ToolCapability::WebSearch,
-            ToolCapability::WebScrape,
+        capabilities: HashSet::from([\
+            ToolCapability::HttpGet,\
+            ToolCapability::WebSearch,\
+            ToolCapability::WebScrape,\
         ]),
         channel_subscriptions: vec!["research".into(), "broadcast".into()],
         model_preference: model("gpt-4o", 0.7, 0.2, 0.1),
@@ -233,7 +233,7 @@ Standards:
     }
 }
 
-// ─── 2. Coder ────────────────────────────────────────────────────────────────
+// ─── 2. Coder ────────────────────────────────────────────────────────────────────────
 
 /// Software engineer: code generation, review, debugging, refactoring.
 pub fn coder() -> AgentManifest {
@@ -244,12 +244,12 @@ pub fn coder() -> AgentManifest {
             refactors code across Rust, Python, TypeScript, Go, and more."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::BashExec,
-            ToolCapability::ReadFile,
-            ToolCapability::WriteFile,
-            ToolCapability::PythonExec,
-            ToolCapability::GitDiff,
+        capabilities: HashSet::from([\
+            ToolCapability::BashExec,\
+            ToolCapability::ReadFile,\
+            ToolCapability::WriteFile,\
+            ToolCapability::PythonExec,\
+            ToolCapability::GitDiff,\
         ]),
         channel_subscriptions: vec!["code".into(), "pr-review".into(), "broadcast".into()],
         model_preference: model("claude-3-5-sonnet-20241022", 0.8, 0.1, 0.1),
@@ -287,7 +287,7 @@ Workflow:
     }
 }
 
-// ─── 3. DevOps ───────────────────────────────────────────────────────────────
+// ─── 3. DevOps ───────────────────────────────────────────────────────────────────────
 
 /// Infrastructure and reliability engineer: CI/CD, deployments, monitoring.
 pub fn devops() -> AgentManifest {
@@ -298,12 +298,12 @@ pub fn devops() -> AgentManifest {
             Docker/Kubernetes, cloud resources, and production monitoring."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::BashExec,
-            ToolCapability::HttpGet,
-            ToolCapability::HttpPost,
-            ToolCapability::ReadFile,
-            ToolCapability::WriteFile,
+        capabilities: HashSet::from([\
+            ToolCapability::BashExec,\
+            ToolCapability::HttpGet,\
+            ToolCapability::HttpPost,\
+            ToolCapability::ReadFile,\
+            ToolCapability::WriteFile,\
         ]),
         channel_subscriptions: vec!["devops".into(), "alerts".into(), "broadcast".into()],
         model_preference: model("gpt-4o", 0.7, 0.2, 0.1),
@@ -334,17 +334,17 @@ Non-negotiable rules:
             code_execution: true,
             ..ApprovalGates::default()
         },
-        tags: vec![
-            "devops".into(),
-            "infrastructure".into(),
-            "kubernetes".into(),
-            "ci-cd".into(),
-            "monitoring".into(),
+        tags: vec![\
+            "devops".into(),\
+            "infrastructure".into(),\
+            "kubernetes".into(),\
+            "ci-cd".into(),\
+            "monitoring".into(),\
         ],
     }
 }
 
-// ─── 4. Data Analyst ─────────────────────────────────────────────────────────
+// ─── 4. Data Analyst ────────────────────────────────────────────────────────────────
 
 /// Data science specialist: CSV/SQL analysis, statistics, visualisation.
 pub fn data_analyst() -> AgentManifest {
@@ -355,11 +355,11 @@ pub fn data_analyst() -> AgentManifest {
             runs statistical tests; builds ML models; produces publication-quality charts."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::PythonExec,
-            ToolCapability::SqlQuery,
-            ToolCapability::ReadFile,
-            ToolCapability::WriteFile,
+        capabilities: HashSet::from([\
+            ToolCapability::PythonExec,\
+            ToolCapability::SqlQuery,\
+            ToolCapability::ReadFile,\
+            ToolCapability::WriteFile,\
         ]),
         channel_subscriptions: vec!["data".into(), "analytics".into(), "broadcast".into()],
         model_preference: model("gpt-4o", 0.75, 0.15, 0.10),
@@ -386,17 +386,17 @@ Methodology standards:
         budget: budget(1.50, 60, 150_000, 600, 10),
         memory: memory(256, true, true, false),
         approval_gates: ApprovalGates::default(),
-        tags: vec![
-            "data".into(),
-            "analytics".into(),
-            "ml".into(),
-            "statistics".into(),
-            "python".into(),
+        tags: vec![\
+            "data".into(),\
+            "analytics".into(),\
+            "ml".into(),\
+            "statistics".into(),\
+            "python".into(),\
         ],
     }
 }
 
-// ─── 5. Writer ───────────────────────────────────────────────────────────────
+// ─── 5. Writer ──────────────────────────────────────────────────────────────────────
 
 /// Content creation specialist: articles, docs, copy, editing.
 pub fn writer() -> AgentManifest {
@@ -407,10 +407,10 @@ pub fn writer() -> AgentManifest {
             documentation, marketing copy, and long-form content with consistent voice and style."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::WebSearch,
-            ToolCapability::ReadFile,
-            ToolCapability::WriteFile,
+        capabilities: HashSet::from([\
+            ToolCapability::WebSearch,\
+            ToolCapability::ReadFile,\
+            ToolCapability::WriteFile,\
         ]),
         channel_subscriptions: vec!["writing".into(), "content".into(), "broadcast".into()],
         model_preference: model("claude-3-5-sonnet-20241022", 0.85, 0.10, 0.05),
@@ -438,17 +438,17 @@ Writing standards:
         budget: budget(0.75, 40, 100_000, 300, 8),
         memory: memory(128, true, false, false),
         approval_gates: ApprovalGates::default(),
-        tags: vec![
-            "writing".into(),
-            "content".into(),
-            "documentation".into(),
-            "copywriting".into(),
-            "editing".into(),
+        tags: vec![\
+            "writing".into(),\
+            "content".into(),\
+            "documentation".into(),\
+            "copywriting".into(),\
+            "editing".into(),\
         ],
     }
 }
 
-// ─── 6. Secretary ────────────────────────────────────────────────────────────
+// ─── 6. Secretary ───────────────────────────────────────────────────────────────────
 
 /// Personal assistant: email drafting, scheduling, reminders, organisation.
 pub fn secretary() -> AgentManifest {
@@ -459,10 +459,10 @@ pub fn secretary() -> AgentManifest {
             sets reminders, and organises information with precise brevity."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::SendEmail,
-            ToolCapability::HttpGet,
-            ToolCapability::HttpPost,
+        capabilities: HashSet::from([\
+            ToolCapability::SendEmail,\
+            ToolCapability::HttpGet,\
+            ToolCapability::HttpPost,\
         ]),
         channel_subscriptions: vec!["email".into(), "calendar".into(), "broadcast".into()],
         model_preference: ModelPreference {
@@ -500,17 +500,17 @@ Communication standards:
             external_messages: true,
             ..ApprovalGates::default()
         },
-        tags: vec![
-            "email".into(),
-            "calendar".into(),
-            "scheduling".into(),
-            "assistant".into(),
-            "organisation".into(),
+        tags: vec![\
+            "email".into(),\
+            "calendar".into(),\
+            "scheduling".into(),\
+            "assistant".into(),\
+            "organisation".into(),\
         ],
     }
 }
 
-// ─── 7. Security Analyst ─────────────────────────────────────────────────────
+// ─── 7. Security Analyst ─────────────────────────────────────────────────────────────
 
 /// Application security specialist: vulnerability scanning, threat modelling.
 pub fn security_analyst() -> AgentManifest {
@@ -521,10 +521,10 @@ pub fn security_analyst() -> AgentManifest {
             analysis, dependency audits, threat modelling, and produces remediation reports."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::BashExec,
-            ToolCapability::HttpGet,
-            ToolCapability::ReadFile,
+        capabilities: HashSet::from([\
+            ToolCapability::BashExec,\
+            ToolCapability::HttpGet,\
+            ToolCapability::ReadFile,\
         ]),
         channel_subscriptions: vec!["security".into(), "alerts".into(), "broadcast".into()],
         model_preference: model("gpt-4o", 0.80, 0.10, 0.10),
@@ -559,17 +559,17 @@ Ethical boundaries:
             code_execution: true,
             ..ApprovalGates::default()
         },
-        tags: vec![
-            "security".into(),
-            "owasp".into(),
-            "pentest".into(),
-            "vulnerability".into(),
-            "threat-model".into(),
+        tags: vec![\
+            "security".into(),\
+            "owasp".into(),\
+            "pentest".into(),\
+            "vulnerability".into(),\
+            "threat-model".into(),\
         ],
     }
 }
 
-// ─── 8. Product Manager ──────────────────────────────────────────────────────
+// ─── 8. Product Manager ──────────────────────────────────────────────────────────────
 
 /// Product strategy specialist: roadmaps, specs, prioritisation, stakeholder comms.
 pub fn product_manager() -> AgentManifest {
@@ -580,10 +580,10 @@ pub fn product_manager() -> AgentManifest {
             frameworks; writes stakeholder updates; and keeps teams aligned on user value."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::WebSearch,
-            ToolCapability::ReadFile,
-            ToolCapability::WriteFile,
+        capabilities: HashSet::from([\
+            ToolCapability::WebSearch,\
+            ToolCapability::ReadFile,\
+            ToolCapability::WriteFile,\
         ]),
         channel_subscriptions: vec!["product".into(), "roadmap".into(), "broadcast".into()],
         model_preference: model("claude-3-5-sonnet-20241022", 0.80, 0.15, 0.05),
@@ -611,17 +611,17 @@ Decision-making principles:
         budget: budget(1.00, 40, 120_000, 300, 8),
         memory: memory(256, true, true, true),
         approval_gates: ApprovalGates::default(),
-        tags: vec![
-            "product".into(),
-            "roadmap".into(),
-            "prd".into(),
-            "strategy".into(),
-            "stakeholders".into(),
+        tags: vec![\
+            "product".into(),\
+            "roadmap".into(),\
+            "prd".into(),\
+            "strategy".into(),\
+            "stakeholders".into(),\
         ],
     }
 }
 
-// ─── 9. Financial Analyst ────────────────────────────────────────────────────
+// ─── 9. Financial Analyst ────────────────────────────────────────────────────────────
 
 /// Finance specialist: financial modelling, forecasting, risk analysis.
 pub fn financial_analyst() -> AgentManifest {
@@ -632,10 +632,10 @@ pub fn financial_analyst() -> AgentManifest {
             models, performs risk assessment, and produces investment research reports."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::PythonExec,
-            ToolCapability::HttpGet,
-            ToolCapability::SqlQuery,
+        capabilities: HashSet::from([\
+            ToolCapability::PythonExec,\
+            ToolCapability::HttpGet,\
+            ToolCapability::SqlQuery,\
         ]),
         channel_subscriptions: vec!["finance".into(), "analytics".into(), "broadcast".into()],
         model_preference: model("gpt-4o", 0.80, 0.10, 0.10),
@@ -666,17 +666,17 @@ of future results."
         budget: budget(1.50, 60, 150_000, 600, 10),
         memory: memory(256, true, true, false),
         approval_gates: ApprovalGates::default(),
-        tags: vec![
-            "finance".into(),
-            "dcf".into(),
-            "valuation".into(),
-            "risk".into(),
-            "investing".into(),
+        tags: vec![\
+            "finance".into(),\
+            "dcf".into(),\
+            "valuation".into(),\
+            "risk".into(),\
+            "investing".into(),\
         ],
     }
 }
 
-// ─── 10. Teacher ─────────────────────────────────────────────────────────────
+// ─── 10. Teacher ───────────────────────────────────────────────────────────────────
 
 /// Education specialist: concept explanation, curriculum design, Q&A.
 pub fn teacher() -> AgentManifest {
@@ -688,9 +688,9 @@ pub fn teacher() -> AgentManifest {
             pedagogical clarity."
             .into(),
         version: env!("CARGO_PKG_VERSION").into(),
-        capabilities: HashSet::from([
-            ToolCapability::WebSearch,
-            ToolCapability::ReadFile,
+        capabilities: HashSet::from([\
+            ToolCapability::WebSearch,\
+            ToolCapability::ReadFile,\
         ]),
         channel_subscriptions: vec!["learning".into(), "education".into(), "broadcast".into()],
         model_preference: model("gpt-4o", 0.75, 0.15, 0.10),
@@ -723,17 +723,17 @@ explore further?'"
         budget: budget(0.75, 40, 100_000, 300, 8),
         memory: memory(256, true, true, false),
         approval_gates: ApprovalGates::default(),
-        tags: vec![
-            "education".into(),
-            "teaching".into(),
-            "curriculum".into(),
-            "tutoring".into(),
-            "explanation".into(),
+        tags: vec![\
+            "education".into(),\
+            "teaching".into(),\
+            "curriculum".into(),\
+            "tutoring".into(),\
+            "explanation".into(),\
         ],
     }
 }
 
-// ─── Public API ──────────────────────────────────────────────────────────────
+// ─── Public API ────────────────────────────────────────────────────────────────────
 
 /// Returns all 10 pre-built agent manifests sorted alphabetically by name.
 ///
@@ -743,17 +743,17 @@ explore further?'"
 /// assert_eq!(agents.len(), 10);
 /// ```
 pub fn catalog() -> Vec<AgentManifest> {
-    let mut agents = vec![
-        coder(),
-        data_analyst(),
-        devops(),
-        financial_analyst(),
-        product_manager(),
-        researcher(),
-        secretary(),
-        security_analyst(),
-        teacher(),
-        writer(),
+    let mut agents = vec![\
+        coder(),\
+        data_analyst(),\
+        devops(),\
+        financial_analyst(),\
+        product_manager(),\
+        researcher(),\
+        secretary(),\
+        security_analyst(),\
+        teacher(),\
+        writer(),\
     ];
     agents.sort_by(|a, b| a.name.cmp(&b.name));
     agents
@@ -777,5 +777,20 @@ pub fn get_agent(name: &str) -> Option<AgentManifest> {
         "teacher" => Some(teacher()),
         "writer" => Some(writer()),
         _ => None,
+    }
+}
+
+/// Catalog accessor — wraps the free-function API as a zero-sized struct.
+pub struct AgentCatalog;
+
+impl AgentCatalog {
+    /// Returns all 10 pre-built agent manifests sorted alphabetically by name.
+    pub fn all() -> Vec<AgentManifest> {
+        catalog()
+    }
+
+    /// Returns the manifest for a specific agent by slug name, or `None` if unknown.
+    pub fn get(name: &str) -> Option<AgentManifest> {
+        get_agent(name)
     }
 }
