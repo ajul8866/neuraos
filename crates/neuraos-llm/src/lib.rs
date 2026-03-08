@@ -1,16 +1,1 @@
-//! NeuraOS LLM Router — multi-provider routing, caching, streaming, optimization.
-
-#![forbid(unsafe_code)]
-#![deny(clippy::all)]
-
-pub mod cache;
-pub mod optimizer;
-pub mod providers;
-pub mod router;
-pub mod streaming;
-
-pub use cache::*;
-pub use optimizer::*;
-pub use providers::LlmProvider;
-pub use router::*;
-pub use streaming::*;
+Ly8hIE5ldXJhT1MgTExNIFJvdXRlciDigJQgbXVsdGktcHJvdmlkZXIgcm91dGluZywgY2FjaGluZywgc3RyZWFtaW5nLCBvcHRpbWl6YXRpb24uCgojIVtmb3JiaWQodW5zYWZlX2NvZGUpXQojIVtkZW55KGNsaXBweTo6YWxsKV0KCnB1YiBtb2QgY2FjaGU7CnB1YiBtb2Qgb3B0aW1pemVyOwpwdWIgbW9kIHByb3ZpZGVyczsKcHViIG1vZCByb3V0ZXI7CnB1YiBtb2Qgc3RyZWFtaW5nOwoKcHViIHVzZSBjYWNoZTo6KjsKcHViIHVzZSBvcHRpbWl6ZXI6Oio7CnB1YiB1c2UgcHJvdmlkZXJzOjpMbG1Qcm92aWRlcjsKcHViIHVzZSByb3V0ZXI6Oio7CnB1YiB1c2Ugc3RyZWFtaW5nOjoqOwo=
