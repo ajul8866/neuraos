@@ -1,1 +1,29 @@
-W3BhY2thZ2VdCm5hbWUgPSAibmV1cmFvcy13aXJlIgp2ZXJzaW9uLndvcmtzcGFjZSA9IHRydWUKZWRpdGlvbi53b3Jrc3BhY2UgPSB0cnVlCnJ1c3QtdmVyc2lvbi53b3Jrc3BhY2UgPSB0cnVlCmF1dGhvcnMud29ya3NwYWNlID0gdHJ1ZQpsaWNlbnNlLndvcmtzcGFjZSA9IHRydWUKZGVzY3JpcHRpb24gPSAiSFRUUCBBUEkgbGF5ZXIgKEF4dW0pIGZvciB0aGUgTmV1cmFPUyBwbGF0Zm9ybSIKCltkZXBlbmRlbmNpZXNdCm5ldXJhb3Mta2VybmVsID0geyBwYXRoID0gIi4uL25ldXJhb3Mta2VybmVsIiB9Cm5ldXJhb3MtdHlwZXMgID0geyBwYXRoID0gIi4uL25ldXJhb3MtdHlwZXMiIH0KYXh1bSAgICAgICAgICAgPSB7IHdvcmtzcGFjZSA9IHRydWUgfQp0b2tpbyAgICAgICAgICA9IHsgd29ya3NwYWNlID0gdHJ1ZSB9CnNlcmRlICAgICAgICAgID0geyB3b3Jrc3BhY2UgPSB0cnVlIH0Kc2VyZGVfanNvbiAgICAgPSB7IHdvcmtzcGFjZSA9IHRydWUgfQphbnlob3cgICAgICAgICA9IHsgd29ya3NwYWNlID0gdHJ1ZSB9CnRyYWNpbmcgICAgICAgID0gIjAuMSIKCltkZXYtZGVwZW5kZW5jaWVzXQpheHVtLXRlc3QgICAgID0gIjE5LjEuMSIKdG9raW8gICAgICAgICA9IHsgd29ya3NwYWNlID0gdHJ1ZSwgZmVhdHVyZXMgPSBbIm1hY3JvcyIsICJydC1tdWx0aS10aHJlYWQiXSB9Cg==
+[package]
+name             = "neuraos-wire"
+version.workspace          = true
+edition.workspace          = true
+rust-version.workspace     = true
+authors.workspace          = true
+license.workspace          = true
+description      = "HTTP API layer (Axum) for the NeuraOS platform"
+
+[dependencies]
+neuraos-kernel = { path = "../neuraos-kernel" }
+neuraos-types  = { path = "../neuraos-types" }
+neuraos-config = { path = "../neuraos-config" }
+axum           = { workspace = true }
+axum-extra     = { workspace = true }
+tower          = { workspace = true }
+tower-http     = { workspace = true }
+tokio          = { workspace = true }
+tokio-stream   = { workspace = true }
+serde          = { workspace = true }
+serde_json     = { workspace = true }
+tracing        = { workspace = true }
+thiserror      = { workspace = true }
+anyhow         = { workspace = true }
+uuid           = { workspace = true }
+chrono         = { workspace = true }
+
+[dev-dependencies]
+tokio          = { workspace = true, features = ["macros", "rt-multi-thread"] }
