@@ -1,1 +1,23 @@
-W3BhY2thZ2VdCm5hbWUgPSAibmV1cmFvcy1ydW50aW1lIgp2ZXJzaW9uID0gIjAuMS4wIgplZGl0aW9uID0gIjIwMjEiCmRlc2NyaXB0aW9uID0gIk5ldXJhT1MgYXN5bmMgcnVudGltZSBhbmQgdGFzayBleGVjdXRpb24gZW5naW5lIgpsaWNlbnNlID0gIk1JVCIKW2RlcGVuZGVuY2llc10KbmV1cmFvcy10eXBlcyA9IHsgcGF0aCA9ICIuLi9uZXVyYW9zLXR5cGVzIiB9Cm5ldXJhb3Mta2VybmVsID0geyBwYXRoID0gIi4uL25ldXJhb3Mta2VybmVsIiB9CnRva2lvID0geyB2ZXJzaW9uID0gIjEiLCBmZWF0dXJlcyA9IFsiZnVsbCJdIH0KdG9raW8tdXRpbCA9IHsgdmVyc2lvbiA9ICIwLjciLCBmZWF0dXJlcyA9IFsiY29kZWMiXSB9CmFzeW5jLXRyYWl0ID0gIjAuMSIKZnV0dXJlcyA9ICIwLjMiCnRyYWNpbmcgPSAiMC4xIgp0aGlzZXJyb3IgPSAiMSIKc2VyZGUgPSB7IHZlcnNpb24gPSAiMSIsIGZlYXR1cmVzID0gWyJkZXJpdmUiXSB9CnNlcmRlX2pzb24gPSAiMSIKdXVpZCA9IHsgdmVyc2lvbiA9ICIxIiwgZmVhdHVyZXMgPSBbInY0Il0gfQpjaHJvbm8gPSB7IHZlcnNpb24gPSAiMC40IiwgZmVhdHVyZXMgPSBbInNlcmRlIl0gfQpkYXNobWFwID0gIjUiCmZsdW1lID0gIjAuMTEiCnBpbi1wcm9qZWN0ID0gIjEiCg==
+[package]
+name = "neuraos-runtime"
+version = "0.1.0"
+edition = "2021"
+description = "NeuraOS async runtime and task execution engine"
+license = "MIT"
+
+[dependencies]
+neuraos-types = { path = "../neuraos-types" }
+neuraos-kernel = { path = "../neuraos-kernel" }
+tokio = { version = "1", features = ["full"] }
+tokio-util = { version = "0.7", features = ["codec"] }
+async-trait = "0.1"
+futures = "0.3"
+tracing = "0.1"
+thiserror = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+uuid = { version = "1", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+dashmap = "5"
+flume = "0.11"
+pin-project = "1"
