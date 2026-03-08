@@ -8,7 +8,7 @@ pub type Result<T, E = NeuraError> = std::result::Result<T, E>;
 /// Top-level error enum covering all NeuraOS subsystems.
 #[derive(Debug, Error)]
 pub enum NeuraError {
-    // ── Agent ───────────────────────────────────────────────────────────────
+    // ── Agent ──────────────────────────────────────────────────────────────
     #[error("agent not found: {0}")]
     AgentNotFound(String),
 
@@ -18,7 +18,7 @@ pub enum NeuraError {
     #[error("agent error: {0}")]
     AgentError(String),
 
-    // ── Task ────────────────────────────────────────────────────────────────
+    // ── Task ──────────────────────────────────────────────────────────────
     #[error("task not found: {0}")]
     TaskNotFound(String),
 
@@ -58,14 +58,14 @@ pub enum NeuraError {
     #[error("tool argument error: {0}")]
     ToolArgument(String),
 
-    // ── Config ────────────────────────────────────────────────────────────
+    // ── Config ──────────────────────────────────────────────────────────
     #[error("config error: {0}")]
     Config(String),
 
     #[error("config key not found: {0}")]
     ConfigNotFound(String),
 
-    // ── IO / Network ────────────────────────────────────────────────────
+    // ── IO / Network ───────────────────────────────────────────────────
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
 
@@ -78,32 +78,33 @@ pub enum NeuraError {
     #[error("deserialization error: {0}")]
     Deserialization(String),
 
-    // ── Budget ───────────────────────────────────────────────────────────
-    #[error("budget exceeded: cost ${cost} > ${limit}")]
-    BudgetExceeded { cost: f64, limit: f64 },
+    // ── Storage / DB ────────────────────────────────────────────────────
+    #[error("storage error: {0}")]
+    Storage(String),
 
-    #[error("token limit exceeded: used {used} > {limit}")]
-    TokenLimitExceeded { used: u32, limit: u32 },
+    #[error("record not found: {0}")]
+    RecordNotFound(String),
 
-    // ── Circuit Breaker ───────────────────────────────────────────────
-    #[error("circuit open: {0}")]
-    CircuitOpen(String),
+    // ── Auth / Security ────────────────────────────────────────────────
+    #[error("unauthorized: {0}")]
+    Unauthorized(String),
 
-    // ── RBAC/Policy ───────────────────────────────────────────────────
     #[error("permission denied: {0}")]
     PermissionDenied(String),
 
-    #[error("approval required: {0}")]
-    ApprovalRequired(String),
-
-    // ── Input Validation ──────────────────────────────────────────────
-    #[error("invalid input: {0}")]
-    InvalidInput(String),
-
-    // ── Generic ─────────────────────────────────────────────────────────
-    #[error("{0}")]
-    Other(String),
-
+    // ── Internal ────────────────────────────────────────────────────────
     #[error("internal error: {0}")]
     Internal(String),
+
+    #[error("not implemented: {0}")]
+    NotImplemented(String),
+
+    #[error("timeout: {0}")]
+    Timeout(String),
+
+    #[error("resource exhausted: {0}")]
+    ResourceExhausted(String),
+
+    #[error("invalid input: {0}")]
+    InvalidInput(String),
 }
